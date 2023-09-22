@@ -15,3 +15,33 @@ vector <int> Pazymiai;
 int Egzaminas;
 float Vidurkis;
 };
+
+int main() {
+  Studentas Laikinas;
+  vector <Studentas> Grupe;
+  int StudentuSkaicius, PazymiuSkaicius;
+  cout << "Iveskite studentu skaiciu: ";
+  cin >> StudentuSkaicius;
+
+  for (int i = 0; i < StudentuSkaicius; i++) {
+    cout << "Iveskite studento varda ir pavarde: ";
+    cin >> Laikinas.Vardas >> Laikinas.Pavarde;
+    cout "Iveskite pazymiu skaiciu: ";
+    cin >> PazymiuSkaicius;
+    float PazymiuVidurkis = 0.0;
+
+    for (int j = 0; j < PazymiuSkaicius; j++) {
+      int k;
+      cout << "Iveskite " << j + 1 << " pazymi: ";
+      cin >> k;
+      Laikinas.Pazymiai.push_back(k);
+      PazymiuVidurkis += k;
+    }
+    PazymiuVidurkis /= PazymiuSkaicius;
+
+    cout << "Iveskite egzamino pazymi: ";
+    cin >> Laikinas.Egzaminas;
+    //Galutinio Vidurkio skaiciavimas
+    Laikinas.Vidurkis = 0.4*PazymiuVidurkis + 0.6*Laikinas.Egzaminas;
+  }
+}
