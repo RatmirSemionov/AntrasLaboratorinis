@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using std::cout;
 using std::string;
@@ -15,12 +16,14 @@ string Vardas, Pavarde;
 vector <int> Pazymiai;
 int Egzaminas;
 float Vidurkis;
+double Mediana;
 };
 
 int main() {
   Studentas Laikinas;
   vector <Studentas> Grupe;
   int StudentuSkaicius, PazymiuSkaicius;
+  char Pasirinktas;
   cout << "Iveskite studentu skaiciu: ";
   cin >> StudentuSkaicius;
 
@@ -44,13 +47,24 @@ int main() {
     cin >> Laikinas.Egzaminas;
     //Galutinio Vidurkio skaiciavimas
     Laikinas.Vidurkis = 0.4*PazymiuVidurkis + 0.6*Laikinas.Egzaminas;
+    //Medianos skaiciavimas
+    sort(Laikinas.Pazymiai.begin(), Laikinas.Pazymiai.end());
+    int vidut = PazymiuSkaicius / 2;
+    if (PazymiuSkaicius % 2 == 0) Laikinas.Mediana = (Laikinas.Pazymiai[vidut - 1] +
+      Laikinas.Pazymiai[vidut]) / 2.0;
+    else Laikinas.Mediana = Laikinas.Pazymiai[vidut];
     Grupe.push_back(Laikinas);
+    Laikinas.Pazymiai.clear();
   }
+  cout << "Apskaiciuoti Vidurki (V) arba Mediana (M)? --> ";
+  cin >> Pasirinktas;
   cout << "--------------------------------------------------" << endl;
-  cout << setw(10) << "Vardas " << setw(18) << " Pavarde " << setw(23) << " Galutinis (Vid.) " << endl;
+  cout << setw(10) << "Vardas " << setw(18) << " Pavarde " << setw(23) << (Pasirinktas == 'V' ? 
+    " Galutinis (Vid.) " : " Galutinis (Med.) ") << endl;
   cout << "--------------------------------------------------" << endl;
   cout << std::fixed << std::setprecision(2);
   for (auto &a: Grupe) {
-    cout << setw(10) << a.Vardas << setw(18) << a.Pavarde << setw(16) << a.Vidurkis << endl;
+    cout << setw(10) << a.Vardas << setw(18) << a.Pavarde << setw(16) << (Pasirinktas == 'V' ? 
+      a.Vidurkis : a.Mediana) << endl;
   }
 }
