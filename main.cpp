@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <cstdlib>
+#include <ctime>
 
 using std::cout;
 using std::string;
@@ -24,43 +26,72 @@ int main() {
     vector<Studentas> Grupe;
     int StudentuSkaicius, PazymiuSkaicius;
     char Pasirinktas;
+    char Pasirinkimas;
+    char PazymiuPasirinkimas;
 
     cout << "Iveskite studentu skaiciu: ";
     cin >> StudentuSkaicius;
 
+    srand(time(0));
+
     for (int i = 0; i < StudentuSkaicius; i++) {
         cout << "Iveskite studento varda ir pavarde: ";
         cin >> Laikinas.Vardas >> Laikinas.Pavarde;
+        //Pasirinkimas kaip gausim duomenis apie pazymius(Ivedimo metodu arba generuojamu)
+        cout << "Pasirinkite kaip ivesite pazymius (M - manualiai, A - automatiskai): ";
+        cin >> Pasirinkimas;
 
-        cout << "Iveskite pazymiu skaiciu (arba -1, jei norite ivesti pazymius be apribojimu): ";
-        cin >> PazymiuSkaicius;
-
-        if (PazymiuSkaicius == -1) {
-            cout << "Iveskite pazymius. Baigti ivedineti pazymius galite suvede '-1'." << endl;
-            int Numeris = 1;
-            while (true) {
-                int k;
-                cout << "Iveskite " << Numeris << " pazymi: ";
-                cin >> k;
-                if (k == -1) {
-                    break;
-                }
-                Laikinas.Pazymiai.push_back(k);
-                Numeris++;
+        if (Pasirinkimas == 'A') {
+            cout << "Ar zinote, kiek pazymiu reikia sugeneruot? (T - taip, N - ne) ";
+            cin >> PazymiuPasirinkimas;
+            if (PazymiuPasirinkimas == 'T') {
+            cout << "Iveskite generuojamu pazymiu skaiciu: ";
+            cin >> PazymiuSkaicius;
             }
-        } else {
+            else if (PazymiuPasirinkimas == 'N') {
+                PazymiuSkaicius = rand() % 11;
+            }
+
             for (int j = 0; j < PazymiuSkaicius; j++) {
-                int k;
-                cout << "Iveskite " << j + 1 << " pazymi: ";
-                cin >> k;
-                Laikinas.Pazymiai.push_back(k);
+                int RandPazymis = rand() % 11;
+                Laikinas.Pazymiai.push_back(RandPazymis);
+            }
+        } else if (Pasirinkimas == 'M') {
+            cout << "Iveskite pazymiu skaiciu (arba -1, jei norite ivesti pazymius be apribojimu): ";
+            cin >> PazymiuSkaicius;
+
+            if (PazymiuSkaicius == -1) {
+                cout << "Iveskite pazymius. Baigti ivedineti pazymius galite suvede '-1'." << endl;
+                int Numeris = 1;
+                while (true) {
+                    int k;
+                    cout << "Iveskite " << Numeris << " pazymi: ";
+                    cin >> k;
+                    if (k == -1) {
+                        break;
+                    }
+                    Laikinas.Pazymiai.push_back(k);
+                    Numeris++;
+                }
+            } else {
+                for (int j = 0; j < PazymiuSkaicius; j++) {
+                    int k;
+                    cout << "Iveskite " << j + 1 << " pazymi: ";
+                    cin >> k;
+                    Laikinas.Pazymiai.push_back(k);
+                }
             }
         }
+        //Pasirinkimas kaip gausim egzamino pazymi(Ivedimo metodu arba generuojamu)
+        cout << "Pasirinkite kaip ivesite egzamino pazymi (M - manualiai, A - automatiskai): ";
+        cin >> Pasirinkimas;
 
-        cout << "Iveskite egzamino pazymi: ";
-        cin >> Laikinas.Egzaminas;
-
-        // Galutinio Vidurkio skaiciavimas
+        if (Pasirinkimas == 'A') {
+            Laikinas.Egzaminas = rand() % 11;
+        } else if (Pasirinkimas == 'M') {
+            cout << "Iveskite egzamino pazymi: ";
+            cin >> Laikinas.Egzaminas;
+        }
         float PazymiuVidurkis = 0.0;
         for (int j = 0; j < Laikinas.Pazymiai.size(); j++) {
             PazymiuVidurkis += Laikinas.Pazymiai[j];
@@ -68,9 +99,9 @@ int main() {
         if (!Laikinas.Pazymiai.empty()) {
             PazymiuVidurkis /= Laikinas.Pazymiai.size();
         }
+        //Galutinio Vidurkio skaiciavimas
         Laikinas.Vidurkis = 0.4 * PazymiuVidurkis + 0.6 * Laikinas.Egzaminas;
-
-        // Medianos skaiciavimas
+        //Medianos skaiciavimas
         sort(Laikinas.Pazymiai.begin(), Laikinas.Pazymiai.end());
         int vidut = Laikinas.Pazymiai.size() / 2;
         if (Laikinas.Pazymiai.size() % 2 == 0) {
