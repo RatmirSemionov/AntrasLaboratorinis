@@ -7,6 +7,7 @@
 #include <ctime>
 #include <fstream>
 #include <sstream>
+#include <cctype>
 
 using std::cout;
 using std::string;
@@ -25,6 +26,33 @@ struct Studentas {
     float Vidurkis;
     double Mediana;
 };
+
+//Rusiavimo funkcija
+bool Rusiavimas(const Studentas& a, const Studentas& b) {
+    size_t i = 0, j = 0;
+    while (i < a.Vardas.size() && j < b.Vardas.size()) {
+        if (isdigit(a.Vardas[i]) && isdigit(b.Vardas[j])) {
+            int numA = 0, numB = 0;
+            while (i < a.Vardas.size() && isdigit(a.Vardas[i])) {
+                numA = numA * 10 + (a.Vardas[i] - '0');
+                i++;
+            }
+            while (j < b.Vardas.size() && isdigit(b.Vardas[j])) {
+                numB = numB * 10 + (b.Vardas[j] - '0');
+                j++;
+            }
+            if (numA != numB)
+                return numA < numB;
+        }
+        else {
+            if (a.Vardas[i] != b.Vardas[j])
+                return a.Vardas[i] < b.Vardas[j];
+            i++;
+            j++;
+        }
+    }
+    return a.Vardas.size() < b.Vardas.size();
+}
 
 int main() {
     Studentas Laikinas;
@@ -182,6 +210,9 @@ int main() {
             Laikinas.Pazymiai.clear();
         }
     }
+
+    // Studentu rusiavimas
+    std::sort(Grupe.begin(), Grupe.end(), Rusiavimas);
 
     std::ostream &output = (Pasirinkimas2 == 'F') ? outputFile : cout;
 
