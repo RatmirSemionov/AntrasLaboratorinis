@@ -16,6 +16,7 @@ using std::vector;
 using std::setw;
 using std::ifstream;
 using std::istringstream;
+using std::ofstream;
 
 struct Studentas {
     string Vardas, Pavarde;
@@ -34,6 +35,8 @@ int main() {
     char Pasirinkimas2;
     char PazymiuPasirinkimas;
     string inputFileName;
+    string outputFileName;
+    ofstream outputFile;
 
     cout << "Kaip norite ivesti duomenis? (M - manualiai, F - is failo): ";
     cin >> Pasirinkimas2;
@@ -80,11 +83,20 @@ int main() {
                 Laikinas.Mediana = Laikinas.Pazymiai[vidut];
             }
 
-
             Grupe.push_back(Laikinas);
             Laikinas.Pazymiai.clear();
         }
         inputFile.close();
+
+        cout << "Iveskite rezultatu failo pavadinima: ";
+        cin >> outputFileName;
+        outputFile.open(outputFileName);
+
+        if (!outputFile.is_open()) {
+            cout << "Nepavyko atidaryti rezultatu faila: " << outputFileName << endl;
+            return 1;
+        }
+
     } else if (Pasirinkimas2 == 'M') {
         cout << "Iveskite studentu skaiciu: ";
         cin >> StudentuSkaicius;
@@ -171,13 +183,15 @@ int main() {
         }
     }
 
+    std::ostream &output = (Pasirinkimas2 == 'F') ? outputFile : cout;
+
     cout << "Apskaciuoti Vidurki (V) arba Mediana (M)? -> ";
     cin >> Pasirinktas;
-    cout << "--------------------------------------------------" << endl;
-    cout << setw(10) << "Vardas " << setw(18) << " Pavarde " << setw(23) << (Pasirinktas == 'V' ? " Galutinis (Vid.) " : " Galutinis (Med.) ") << endl;
-    cout << "--------------------------------------------------" << endl;
-    cout << std::fixed << std::setprecision(2);
+    output << "--------------------------------------------------" << endl;
+    output << setw(10) << "Vardas " << setw(18) << " Pavarde " << setw(23) << (Pasirinktas == 'V' ? " Galutinis (Vid.) " : " Galutinis (Med.) ") << endl;
+    output << "--------------------------------------------------" << endl;
+    output << std::fixed << std::setprecision(2);
     for (auto &a : Grupe) {
-        cout << setw(10) << a.Vardas << setw(18) << a.Pavarde << setw(16) << (Pasirinktas == 'V' ? a.Vidurkis : a.Mediana) << endl;
+        output << setw(9) << a.Vardas << setw(18) << a.Pavarde << setw(16) << (Pasirinktas == 'V' ? a.Vidurkis : a.Mediana) << endl;
     }
 }
