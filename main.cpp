@@ -70,6 +70,10 @@ int main() {
 
     cout << "Kaip norite ivesti duomenis? (M - manualiai, F - is failo): ";
     cin >> Pasirinkimas2;
+    if (Pasirinkimas2 != 'M' && Pasirinkimas2 != 'F') {
+        cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
+        return 1;
+    }
 
     if (Pasirinkimas2 == 'F') {
         cout << "Iveskite failo pavadinima: ";
@@ -130,6 +134,10 @@ int main() {
     } else if (Pasirinkimas2 == 'M') {
         cout << "Iveskite studentu skaiciu: ";
         cin >> StudentuSkaicius;
+        if (cin.fail() || StudentuSkaicius <= 0) {
+            cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
+            return 1;
+        }
 
         srand(time(0));
 
@@ -140,24 +148,57 @@ int main() {
             cout << "Pasirinkite kaip ivesite pazymius (M - manualiai, A - automatiskai): ";
             cin >> Pasirinkimas;
 
+            if (Pasirinkimas != 'M' && Pasirinkimas != 'A') {
+                cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
+                return 1;
+            }
+
             if (Pasirinkimas == 'A') {
                     cout << "Ar zinote, kiek pazymiu reikia sugeneruot? (T - taip, N - ne) ";
                     cin >> PazymiuPasirinkimas;
+
+                    if (PazymiuPasirinkimas != 'T' && PazymiuPasirinkimas != 'N') {
+                        cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
+                        return 1;
+                    }
+
                     if (PazymiuPasirinkimas == 'T') {
                     cout << "Iveskite generuojamu pazymiu skaiciu: ";
                     cin >> PazymiuSkaicius;
+                    if (cin.fail() || PazymiuSkaicius <= 0) {
+                        cout << "Klaida. Netinkamas ivedimas, programa baigiasi" << endl;
+                        return 1;
+                    }
                     }
                     else if (PazymiuPasirinkimas == 'N') {
-                        PazymiuSkaicius = rand() % 11;
+                        PazymiuSkaicius = rand() % 11 + 1;
                     }
 
                 for (int j = 0; j < PazymiuSkaicius; j++) {
                     int RandPazymis = rand() % 11;
                     Laikinas.Pazymiai.push_back(RandPazymis);
                 }
+                cout << "Sugeneruoti studento pazymiai: ";
+                for (int pazymys : Laikinas.Pazymiai) {
+                    cout << pazymys << " ";
+                }
+                cout << '\n';
             } else if (Pasirinkimas == 'M') {
                 cout << "Iveskite pazymiu skaiciu (arba -1, jei norite ivesti pazymius be apribojimu): ";
                 cin >> PazymiuSkaicius;
+                try {
+                    if (PazymiuSkaicius == 0) {
+                        throw std::domain_error("Dalyba is nulio neapibrezta.\n");
+                    }
+                }
+                catch (std::exception& e) {
+                    std::cerr << "Gavome isimti: " << e.what() << endl;
+                    return 1;
+                }
+                if (cin.fail() || PazymiuSkaicius < -1) {
+                    cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
+                    return 1;
+                }
 
                 if (PazymiuSkaicius == -1) {
                     cout << "Iveskite pazymius. Baigti ivedineti pazymius galite suvede '-1'." << endl;
@@ -166,17 +207,34 @@ int main() {
                         int k;
                         cout << "Iveskite " << Numeris << " pazymi: ";
                         cin >> k;
-                        if (k == -1) {
+                        if (cin.fail() || k < -1 || k > 10) {
+                            cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
+                            return 1;
+                        }
+                        else if (k == -1) {
                             break;
                         }
                         Laikinas.Pazymiai.push_back(k);
                         Numeris++;
+                    }
+                    try {
+                        if (Numeris == 1) {
+                            throw std::domain_error("Dalyba is nulio neapibrezta.\n");
+                        }
+                    }
+                    catch (std::exception& e) {
+                        std::cerr << "Gavome isimti: " << e.what() << endl;
                     }
                 } else {
                     for (int j = 0; j < PazymiuSkaicius; j++) {
                         int k;
                         cout << "Iveskite " << j + 1 << " pazymi: ";
                         cin >> k;
+                        if (cin.fail() || k < -1 || k > 10) {
+                            cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
+                            return 1;
+                        }
+
                         Laikinas.Pazymiai.push_back(k);
                     }
                 }
@@ -185,11 +243,21 @@ int main() {
             cout << "Pasirinkite kaip ivesite egzamino pazymi (M - manualiai, A - automatiskai): ";
             cin >> Pasirinkimas;
 
+            if (Pasirinkimas != 'M' && Pasirinkimas != 'A') {
+                cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
+                return 1;
+            }
+
             if (Pasirinkimas == 'A') {
                 Laikinas.Egzaminas = rand() % 11;
+                cout << "Sugeneruotas egzamino pazymis: " << Laikinas.Egzaminas << '\n';
             } else if (Pasirinkimas == 'M') {
                 cout << "Iveskite egzamino pazymi: ";
                 cin >> Laikinas.Egzaminas;
+                if (cin.fail() || Laikinas.Egzaminas < 0) {
+                    cout << "Klaida. Netinkamas ivedimas, programa baigiasi" << endl;
+                    return 1;
+                }
             }
             float PazymiuVidurkis = 0.0;
             for (int j = 0; j < Laikinas.Pazymiai.size(); j++) {
@@ -220,6 +288,10 @@ int main() {
 
     cout << "Apskaciuoti Vidurki (V) arba Mediana (M)? -> ";
     cin >> Pasirinktas;
+    if (Pasirinktas != 'V' && Pasirinktas != 'M') {
+        cout << "Klaida. Netinkamas ivedimas, programa baigiasi" << endl;
+        return 1;
+    }
     output << "--------------------------------------------------" << endl;
     output << setw(17) << left << "Vardas " << setw(15) << left << " Pavarde " << setw(15) << (Pasirinktas == 'V' ? " Galutinis (Vid.) " : " Galutinis (Med.) ") << endl;
     output << "--------------------------------------------------" << endl;
