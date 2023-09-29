@@ -8,6 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include <cctype>
+#include <ios>
 
 using std::cout;
 using std::string;
@@ -18,6 +19,7 @@ using std::setw;
 using std::ifstream;
 using std::istringstream;
 using std::ofstream;
+using std::left;
 
 struct Studentas {
     string Vardas, Pavarde;
@@ -219,10 +221,10 @@ int main() {
     cout << "Apskaciuoti Vidurki (V) arba Mediana (M)? -> ";
     cin >> Pasirinktas;
     output << "--------------------------------------------------" << endl;
-    output << setw(10) << "Vardas " << setw(18) << " Pavarde " << setw(23) << (Pasirinktas == 'V' ? " Galutinis (Vid.) " : " Galutinis (Med.) ") << endl;
+    output << setw(17) << left << "Vardas " << setw(15) << left << " Pavarde " << setw(15) << (Pasirinktas == 'V' ? " Galutinis (Vid.) " : " Galutinis (Med.) ") << endl;
     output << "--------------------------------------------------" << endl;
     output << std::fixed << std::setprecision(2);
     for (auto &a : Grupe) {
-        output << setw(9) << a.Vardas << setw(18) << a.Pavarde << setw(16) << (Pasirinktas == 'V' ? a.Vidurkis : a.Mediana) << endl;
+        output << setw(18) << left << a.Vardas << setw(20) << left << a.Pavarde << setw(15) << (Pasirinktas == 'V' ? a.Vidurkis : a.Mediana) << endl;
     }
 }
