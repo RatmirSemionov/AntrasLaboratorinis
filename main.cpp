@@ -8,6 +8,22 @@ int main() {
     string inputFileName;
     string outputFileName;
     ofstream outputFile;
+    char FailoGeneravimas;
+    //Ar norim sugeneruot faila
+    cout << "Ar norite sugeneruot studentu faila? (T - taip, N - ne): ";
+    cin >> FailoGeneravimas;
+    if (FailoGeneravimas == 'T') {
+        int studentCount;
+        string filename;
+        cout << "Iveskite kiek studentu duomenis norite sugeneruoti: ";
+        cin >> studentCount;
+        cout << "Iveskite failo pavadinima i kuri norite sugeneruoti duomenis: ";
+        cin >> filename;
+        SukurtiStudentoFaila(studentCount, filename);
+        cout << "Studentu duomenis sugeneruoti i faila " << filename << endl;
+        return 1;
+    }
+    else if (FailoGeneravimas == 'N') {
     //Kaip gausim duomenis
     cout << "Kaip norite ivesti duomenis? (M - manualiai, F - is failo): ";
     cin >> Pasirinkimas2;
@@ -41,5 +57,6 @@ int main() {
     output << std::fixed << std::setprecision(2);
     for (auto &a : Grupe) {
         output << setw(18) << left << a.Vardas << setw(20) << left << a.Pavarde << setw(15) << (Pasirinktas == 'V' ? a.Vidurkis : a.Mediana) << endl;
+    }
     }
 }
