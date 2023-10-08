@@ -9,6 +9,7 @@ int main() {
     string outputFileName;
     ofstream outputFile;
     char FailoGeneravimas;
+    char Padalinimas;
     //Ar norim sugeneruot faila
     cout << "Ar norite sugeneruot studentu faila? (T - taip, N - ne): ";
     cin >> FailoGeneravimas;
@@ -21,7 +22,16 @@ int main() {
         cin >> filename;
         SukurtiStudentoFaila(studentCount, filename);
         cout << "Studentu duomenis sugeneruoti i faila " << filename << endl;
+        cout << "Ar norite padalinti studentus i dvi kategorijas?(Vargsiukai, Galvociai): ";
+        cin >> Padalinimas;
+        if (Padalinimas == 'T') {
+            FailoSkaitymas(Grupe);
+            StudentuKategorijas(Grupe);
+        }
+        else {
+        cout << "Programa baigiasi, darbas atliktas" << endl;
         return 1;
+        }
     }
     else if (FailoGeneravimas == 'N') {
     //Kaip gausim duomenis
