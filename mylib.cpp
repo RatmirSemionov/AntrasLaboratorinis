@@ -59,6 +59,8 @@ void Mediana(Studentas& Laikinas) {
 //Duomenu nuskaitymas is failo(Pavadinimus rasyt su .txt, pvz. studentai10000.txt)
 void FailoSkaitymas(vector<Studentas>& Grupe) {
     string inputFileName;
+    cout << "Jusu aplankale esantis teksto failas: " << endl;
+    system("dir *.txt");
     cout << "Iveskite failo pavadinima: ";
     cin >> inputFileName;
     ifstream inputFile(inputFileName);
@@ -70,19 +72,27 @@ void FailoSkaitymas(vector<Studentas>& Grupe) {
 
     Studentas Laikinas;
     string line;
-    getline(inputFile, line); // Ignoruot header linija
+    getline(inputFile, line); // Ignoruojam header linija
     while (getline(inputFile, line)) {
         istringstream iss(line);
         iss >> Laikinas.Vardas >> Laikinas.Pavarde;
 
-        int pazymys;
-        while (iss >> pazymys) {
-            Laikinas.Pazymiai.push_back(pazymys);
+        string value;
+        while (iss >> value) {
+            if (all_of(value.begin(), value.end(), ::isdigit)) {
+                int pazymys = std::stoi(value);
+                Laikinas.Pazymiai.push_back(pazymys);
+            }
         }
-        Laikinas.Egzaminas = Laikinas.Pazymiai.back();
-        Laikinas.Pazymiai.pop_back();
 
-        // Skaiciavimai
+        if (!Laikinas.Pazymiai.empty()) {
+            Laikinas.Egzaminas = Laikinas.Pazymiai.back();
+            Laikinas.Pazymiai.pop_back();
+        } else {
+            continue;
+        }
+
+        // Skaiciavimas
         Vidurkis(Laikinas);
         Mediana(Laikinas);
 
@@ -91,7 +101,6 @@ void FailoSkaitymas(vector<Studentas>& Grupe) {
     }
     inputFile.close();
 }
-
 //Failo funkcija, kuriame bus rezultatai(Failo pavadinima rasyt su .txt, pvz. rezultatai.txt)
 void RezultatoFailas(ofstream& outputFile) {
     string outputFileName;
@@ -122,7 +131,7 @@ void EgzaminoPazymis(Studentas& Laikinas) {
             } else if (Pasirinkimas == 'M') {
                 cout << "Iveskite egzamino pazymi: ";
                 cin >> Laikinas.Egzaminas;
-                if (cin.fail() || Laikinas.Egzaminas < 0) {
+                if (cin.fail() || Laikinas.Egzaminas < 0 || Laikinas.Egzaminas > 10) {
                     cout << "Klaida. Netinkamas ivedimas, programa baigiasi" << endl;
                     exit(1);
                 }
@@ -268,4 +277,46 @@ void StudentuInfo(Studentas& Laikinas, vector<Studentas>& Grupe) {
             Grupe.push_back(Laikinas);
             Laikinas.Pazymiai.clear();
         }
+}
+
+void SukurtiStudentoFaila(int studentCount, const string& filename) {
+    ofstream file(filename);
+
+    if (!file.is_open()) {
+        cout << "Failed to open file: " << filename << endl;
+        exit(1);
+    }
+
+    Studentas Laikinas;
+    srand(time(NULL));
+
+    file << std::left << std::setw(22) << "Vardas"
+                      << std::setw(22) << "Pavarde";
+
+    for (int i = 1; i <= 10; i++)
+        file << std::setw(10) << "ND" + std::to_string(i);
+
+    file << std::setw(10) << "Egz." << "\n";
+
+    for (int i = 0; i < studentCount; i++) {
+        Laikinas.Vardas = "Vardas" + std::to_string(i+1);
+        Laikinas.Pavarde = "Pavarde" + std::to_string(i+1);
+
+        for (int j = 0; j < 10; j++)
+            Laikinas.Pazymiai.push_back(rand()%11);
+
+        Laikinas.Egzaminas = rand()%11;
+
+        file << std::left << std::setw(22) << Laikinas.Vardas
+                          << std::setw(22) << Laikinas.Pavarde;
+
+        for (int grade : Laikinas.Pazymiai)
+            file << std::setw(10) << grade;
+
+        file << std::setw(10) << Laikinas.Egzaminas << "\n";
+
+        Laikinas.Pazymiai.clear();
+    }
+
+    file.close();
 }
