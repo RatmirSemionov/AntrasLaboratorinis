@@ -23,6 +23,7 @@ using std::ifstream;
 using std::istringstream;
 using std::ofstream;
 using std::left;
+using std::to_string;
 
 struct Studentas {
     string Vardas, Pavarde;
@@ -41,4 +42,5 @@ void EgzaminoPazymis(Studentas& Laikinas);
 void PazymiuGeneravimas(Studentas& Laikinas);
 void PazymiuIvedimas(Studentas& Laikinas);
 void StudentuInfo(Studentas& Laikinas, vector<Studentas>& Grupe);
+void SukurtiStudentoFaila(int studentCount, const string& filename);
 #endif // MYLIB_H_INCLUDED
