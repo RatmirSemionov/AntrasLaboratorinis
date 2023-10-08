@@ -320,3 +320,45 @@ void SukurtiStudentoFaila(int studentCount, const string& filename) {
 
     file.close();
 }
+
+void StudentuKategorijas(const vector<Studentas>& Grupe) {
+    string fileBelowFive, fileAboveFive;
+    cout << "Iveskite rezultato failo pavadinima studentams su galutini vidurki < 5: ";
+    cin >> fileBelowFive;
+    cout << "Iveskite rezultato failo pavadinima studentams su galutini vidurki >= 5: ";
+    cin >> fileAboveFive;
+
+    ofstream BelowFiveFile(fileBelowFive);
+    ofstream AboveFiveFile(fileAboveFive);
+
+    if (!BelowFiveFile.is_open()) {
+        cout << "Nepavyko atidaryti faila: " << fileBelowFive << endl;
+        exit(1);
+    }
+
+    if (!AboveFiveFile.is_open()) {
+        cout << "Nepavyko atidaryti faila: " << fileAboveFive<< endl;
+        exit(1);
+    }
+
+    BelowFiveFile << std::left << std::setw(22) << "Vardas" << std::setw(22) << "Pavarde" << std::setw(15) << "Galutinis (Vid.)" << "\n";
+    AboveFiveFile << std::left << std::setw(22) << "Vardas" << std::setw(22) << "Pavarde" << std::setw(15) << "Galutinis (Vid.)" << "\n";
+
+
+    for(const auto & a : Grupe){
+        if(a.Vidurkis < 5.0){
+            BelowFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(22) << a.Vardas
+                                      << std::setw(22) << a.Pavarde
+                                      << std::setw(15) << a.Vidurkis
+                                      << "\n";
+        } else {
+            AboveFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(22) << a.Vardas
+                                        << std::setw(22) << a.Pavarde
+                                        << std::setw(15) << a.Vidurkis
+                                        << "\n";
+        }
+    }
+
+    BelowFiveFile.close();
+    AboveFiveFile.close();
+}
