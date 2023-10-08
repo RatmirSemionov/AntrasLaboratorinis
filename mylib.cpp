@@ -280,6 +280,7 @@ void StudentuInfo(Studentas& Laikinas, vector<Studentas>& Grupe) {
 }
 
 void SukurtiStudentoFaila(int studentCount, const string& filename) {
+    auto start = std::chrono::high_resolution_clock::now();
     ofstream file(filename);
 
     if (!file.is_open()) {
@@ -319,6 +320,9 @@ void SukurtiStudentoFaila(int studentCount, const string& filename) {
     }
 
     file.close();
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = finish - start;
+    cout << "Failo kurimo laikas: " << elapsed.count() << " sekundziu" << endl;
 }
 
 void StudentuKategorijas(const vector<Studentas>& Grupe) {
@@ -341,19 +345,23 @@ void StudentuKategorijas(const vector<Studentas>& Grupe) {
         exit(1);
     }
 
-    BelowFiveFile << std::left << std::setw(22) << "Vardas" << std::setw(22) << "Pavarde" << std::setw(15) << "Galutinis (Vid.)" << "\n";
-    AboveFiveFile << std::left << std::setw(22) << "Vardas" << std::setw(22) << "Pavarde" << std::setw(15) << "Galutinis (Vid.)" << "\n";
+    BelowFiveFile << "-------------------------------------------------\n";
+    BelowFiveFile << std::left << std::setw(17) << "Vardas" << std::setw(15) << "Pavarde" << std::setw(15) << "Galutinis (Vid.)" << "\n";
+    BelowFiveFile << "-------------------------------------------------\n";
 
+    AboveFiveFile << "-------------------------------------------------\n";
+    AboveFiveFile << std::left << std::setw(17) << "Vardas" << std::setw(15) << "Pavarde" << std::setw(15) << "Galutinis (Vid.)" << "\n";
+    AboveFiveFile << "-------------------------------------------------\n";
 
     for(const auto & a : Grupe){
         if(a.Vidurkis < 5.0){
-            BelowFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(22) << a.Vardas
-                                      << std::setw(22) << a.Pavarde
+            BelowFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(18) << a.Vardas
+                                      << std::setw(20) << a.Pavarde
                                       << std::setw(15) << a.Vidurkis
                                       << "\n";
         } else {
-            AboveFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(22) << a.Vardas
-                                        << std::setw(22) << a.Pavarde
+            AboveFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(18) << a.Vardas
+                                        << std::setw(20) << a.Pavarde
                                         << std::setw(15) << a.Vidurkis
                                         << "\n";
         }
