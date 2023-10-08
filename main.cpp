@@ -13,6 +13,10 @@ int main() {
     //Ar norim sugeneruot faila
     cout << "Ar norite sugeneruot studentu faila? (T - taip, N - ne): ";
     cin >> FailoGeneravimas;
+    if (FailoGeneravimas != 'T' && FailoGeneravimas != 'N') {
+        cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
+        exit(1);
+    }
     if (FailoGeneravimas == 'T') {
         int studentCount;
         string filename;
@@ -22,7 +26,7 @@ int main() {
         cin >> filename;
         SukurtiStudentoFaila(studentCount, filename);
         cout << "Studentu duomenis sugeneruoti i faila " << filename << endl;
-        cout << "Ar norite padalinti studentus i dvi kategorijas?(Vargsiukai, Galvociai): ";
+        cout << "Ar norite padalinti studentus i dvi kategorijas?(Vargsiukai, Galvociai) - (T - taip, N - ne): ";
         cin >> Padalinimas;
         if (Padalinimas == 'T') {
             FailoSkaitymas(Grupe);
@@ -30,7 +34,7 @@ int main() {
         }
         else {
         cout << "Programa baigiasi, darbas atliktas" << endl;
-        return 1;
+        exit(1);
         }
     }
     else if (FailoGeneravimas == 'N') {
