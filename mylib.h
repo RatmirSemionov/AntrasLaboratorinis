@@ -43,4 +43,5 @@ void PazymiuGeneravimas(Studentas& Laikinas);
 void PazymiuIvedimas(Studentas& Laikinas);
 void StudentuInfo(Studentas& Laikinas, vector<Studentas>& Grupe);
 void SukurtiStudentoFaila(int studentCount, const string& filename);
+void StudentuKategorijas(const vector<Studentas>& Grupe);
 #endif // MYLIB_H_INCLUDED
