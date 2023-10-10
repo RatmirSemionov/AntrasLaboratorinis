@@ -29,8 +29,11 @@ int main() {
         cout << "Ar norite padalinti studentus i dvi kategorijas?(Vargsiukai, Galvociai) - (T - taip, N - ne): ";
         cin >> Padalinimas;
         if (Padalinimas == 'T') {
+            vector<Studentas> BelowFive;
+            vector<Studentas> AboveFive;
             FailoSkaitymas(Grupe);
-            StudentuKategorijas(Grupe);
+            KategorizuotiStudentus(Grupe, BelowFive, AboveFive);
+            KategorijuFailai(BelowFive, AboveFive);
         }
         else {
         cout << "Programa baigiasi, darbas atliktas" << endl;
