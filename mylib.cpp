@@ -1,5 +1,5 @@
 #include "mylib.h"
-
+double ElapsedTime1 = 0, ElapsedTime2 = 0, ElapsedTime3 = 0;
 //Rusiavimo funkcija
 bool Rusiavimas(const Studentas& a, const Studentas& b) {
 
@@ -65,6 +65,7 @@ void FailoSkaitymas(vector<Studentas>& Grupe) {
     cin >> inputFileName;
     ifstream inputFile(inputFileName);
 
+    auto start = std::chrono::high_resolution_clock::now();
     if (!inputFile.is_open()) {
         cout << "Nepavyko atidaryti faila: " << inputFileName << endl;
         exit(1);
@@ -100,6 +101,10 @@ void FailoSkaitymas(vector<Studentas>& Grupe) {
         Laikinas.Pazymiai.clear();
     }
     inputFile.close();
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed1 = finish - start;
+    ElapsedTime1 = elapsed1.count();
+    cout << "Failo nuskaitymo laikas: " << elapsed1.count() << " sekundziu" << endl;
 }
 //Failo funkcija, kuriame bus rezultatai(Failo pavadinima rasyt su .txt, pvz. rezultatai.txt)
 void RezultatoFailas(ofstream& outputFile) {
@@ -325,7 +330,24 @@ void SukurtiStudentoFaila(int studentCount, const string& filename) {
     cout << "Failo kurimo laikas: " << elapsed.count() << " sekundziu" << endl;
 }
 
-void StudentuKategorijas(const vector<Studentas>& Grupe) {
+void KategorizuotiStudentus(const vector<Studentas>& Grupe, vector<Studentas>& BelowFive, vector<Studentas>& AboveFive) {
+    auto start = std::chrono::high_resolution_clock::now();
+
+    for (const auto& a : Grupe) {
+        if(a.Vidurkis < 5.0){
+            BelowFive.push_back(a);
+        } else {
+            AboveFive.push_back(a);
+        }
+    }
+
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed2 = finish - start;
+    ElapsedTime2 = elapsed2.count();
+    cout << "Studentu dalinimas i kategorijas uztruko: " << elapsed2.count() << " sekundziu" << endl;
+}
+
+void KategorijuFailai(const vector<Studentas>& BelowFive, const vector<Studentas>& AboveFive) {
     string fileBelowFive, fileAboveFive;
     cout << "Iveskite rezultato failo pavadinima studentams su galutini vidurki < 5: ";
     cin >> fileBelowFive;
@@ -335,38 +357,49 @@ void StudentuKategorijas(const vector<Studentas>& Grupe) {
     ofstream BelowFiveFile(fileBelowFive);
     ofstream AboveFiveFile(fileAboveFive);
 
-    if (!BelowFiveFile.is_open()) {
-        cout << "Nepavyko atidaryti faila: " << fileBelowFive << endl;
+    auto start = std::chrono::high_resolution_clock::now();
+
+    if (!BelowFiveFile.is_open() || !AboveFiveFile.is_open()) {
+        cout << "Nepavyko atidaryti failo: " << (BelowFiveFile.is_open() ? fileAboveFive : fileBelowFive) << endl;
         exit(1);
     }
 
-    if (!AboveFiveFile.is_open()) {
-        cout << "Nepavyko atidaryti faila: " << fileAboveFive<< endl;
-        exit(1);
-    }
-
+    // Output rezultatas
     BelowFiveFile << "-------------------------------------------------\n";
     BelowFiveFile << std::left << std::setw(17) << "Vardas" << std::setw(15) << "Pavarde" << std::setw(15) << "Galutinis (Vid.)" << "\n";
     BelowFiveFile << "-------------------------------------------------\n";
 
+    // Output rezultatas
     AboveFiveFile << "-------------------------------------------------\n";
     AboveFiveFile << std::left << std::setw(17) << "Vardas" << std::setw(15) << "Pavarde" << std::setw(15) << "Galutinis (Vid.)" << "\n";
     AboveFiveFile << "-------------------------------------------------\n";
 
-    for(const auto & a : Grupe){
-        if(a.Vidurkis < 5.0){
-            BelowFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(18) << a.Vardas
-                                      << std::setw(20) << a.Pavarde
-                                      << std::setw(15) << a.Vidurkis
-                                      << "\n";
-        } else {
-            AboveFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(18) << a.Vardas
-                                        << std::setw(20) << a.Pavarde
-                                        << std::setw(15) << a.Vidurkis
-                                        << "\n";
-        }
+    // Duomenys rasomos studentams su vidurki < 5
+    for(const auto& a : BelowFive){
+        BelowFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(18) << a.Vardas
+                              << std::setw(20) << a.Pavarde
+                              << std::setw(15) << a.Vidurkis
+                              << "\n";
+    }
+
+    // Duomenys rasomos studentams su vidurki >= 5
+    for(const auto& a : AboveFive){
+        AboveFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(18) << a.Vardas
+                            << std::setw(20) << a.Pavarde
+                            << std::setw(15) << a.Vidurkis
+                            << "\n";
     }
 
     BelowFiveFile.close();
     AboveFiveFile.close();
+
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed3 = finish - start;
+    ElapsedTime3 = elapsed3.count();
+    cout << "Galutiniai matavimo rezultatai: " << endl;
+    cout << "Failo nuskaitymo laikas: " << ElapsedTime1 << " sekundziu" << endl;
+    cout << "Studentu dalinimas i kategorijas uztruko: " << ElapsedTime2 << " sekundziu" << endl;
+    cout << "Studentu irasymas i failus uztruko: " << ElapsedTime3 << " sekundziu" << endl;
+    double totalElapsed = ElapsedTime1 + ElapsedTime2 + ElapsedTime3;
+    cout << "Bendras matavimo laikas: " << std::setprecision(15) << totalElapsed << " sekundziu" << endl;
 }
