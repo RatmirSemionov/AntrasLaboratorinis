@@ -19,12 +19,23 @@ int main() {
     }
     if (FailoGeneravimas == 'T') {
         int studentCount;
+        int gradeCount;
         string filename;
         cout << "Iveskite kiek studentu duomenis norite sugeneruoti: ";
         cin >> studentCount;
+        if (cin.fail() || studentCount < 1) {
+            cout << "Klaida. Netinkamas ivedimas, programa baigiasi";
+            exit(1);
+        }
+        cout << "Iveskite kiek namu darbu pazymiu turi studentai: ";
+        cin >> gradeCount;
+        if (cin.fail() || gradeCount < 1) {
+            cout << "Klaida. Netinkamas ivedimas, programa baigiasi";
+            exit(1);
+        }
         cout << "Iveskite failo pavadinima i kuri norite sugeneruoti duomenis: ";
         cin >> filename;
-        SukurtiStudentoFaila(studentCount, filename);
+        SukurtiStudentoFaila(studentCount, gradeCount, filename);
         cout << "Studentu duomenis sugeneruoti i faila " << filename << endl;
         cout << "Ar norite padalinti studentus i dvi kategorijas?(Vargsiukai, Galvociai) - (T - taip, N - ne): ";
         cin >> Padalinimas;
