@@ -284,7 +284,7 @@ void StudentuInfo(Studentas& Laikinas, vector<Studentas>& Grupe) {
         }
 }
 
-void SukurtiStudentoFaila(int studentCount, const string& filename) {
+void SukurtiStudentoFaila(int studentCount, int gradeCount, const string& filename) {
     auto start = std::chrono::high_resolution_clock::now();
     ofstream file(filename);
 
@@ -299,7 +299,7 @@ void SukurtiStudentoFaila(int studentCount, const string& filename) {
     file << std::left << std::setw(22) << "Vardas"
                       << std::setw(22) << "Pavarde";
 
-    for (int i = 1; i <= 10; i++)
+    for (int i = 1; i <= gradeCount; i++)
         file << std::setw(10) << "ND" + std::to_string(i);
 
     file << std::setw(10) << "Egz." << "\n";
@@ -308,7 +308,7 @@ void SukurtiStudentoFaila(int studentCount, const string& filename) {
         Laikinas.Vardas = "Vardas" + std::to_string(i+1);
         Laikinas.Pavarde = "Pavarde" + std::to_string(i+1);
 
-        for (int j = 0; j < 10; j++)
+        for (int j = 0; j < gradeCount; j++)
             Laikinas.Pazymiai.push_back(rand()%11);
 
         Laikinas.Egzaminas = rand()%11;
