@@ -1,5 +1,5 @@
 #include "mylib.h"
-double ElapsedTime1 = 0, ElapsedTime2 = 0, ElapsedTime3 = 0;
+double ElapsedTime1 = 0, ElapsedTime2 = 0, ElapsedTime3 = 0, ElapsedTime4, SortTime = 0;
 //Rusiavimo funkcija
 bool Rusiavimas(const Studentas& a, const Studentas& b) {
 
@@ -35,6 +35,70 @@ bool Rusiavimas(const Studentas& a, const Studentas& b) {
     }
     return strA.size() < strB.size();
 }
+
+// Rusiavimas tik pagal varda
+bool compareByName(const Studentas& a, const Studentas& b) {
+    string strA = a.Vardas;
+    string strB = b.Vardas;
+    size_t i = 0, j = 0;
+    while (i < strA.size() && j < strB.size()) {
+        if (isdigit(strA[i]) && isdigit(strB[j])) {
+            int numA = 0, numB = 0;
+            while (i < strA.size() && isdigit(strA[i])) {
+                numA = numA * 10 + (strA[i] - '0');
+                i++;
+            }
+            while (j < strB.size() && isdigit(strB[j])) {
+                numB = numB * 10 + (strB[j] - '0');
+                j++;
+            }
+            if (numA != numB)
+                return numA < numB;
+        }
+        else {
+            if (strA[i] != strB[j])
+                return strA[i] < strB[j];
+            i++;
+            j++;
+        }
+    }
+    return strA.size() < strB.size();
+}
+
+// Rusiavimas tik pagal pavarde
+bool compareBySurname(const Studentas& a, const Studentas& b) {
+    string strA = a.Vardas;
+    string strB = b.Vardas;
+    size_t i = 0, j = 0;
+    while (i < strA.size() && j < strB.size()) {
+        if (isdigit(strA[i]) && isdigit(strB[j])) {
+            int numA = 0, numB = 0;
+            while (i < strA.size() && isdigit(strA[i])) {
+                numA = numA * 10 + (strA[i] - '0');
+                i++;
+            }
+            while (j < strB.size() && isdigit(strB[j])) {
+                numB = numB * 10 + (strB[j] - '0');
+                j++;
+            }
+            if (numA != numB)
+                return numA < numB;
+        }
+        else {
+            if (strA[i] != strB[j])
+                return strA[i] < strB[j];
+            i++;
+            j++;
+        }
+    }
+    return strA.size() < strB.size();
+}
+
+// Rusiavimas pagal vidurki
+bool compareByGrade(const Studentas& a, const Studentas& b) {
+    return a.Vidurkis < b.Vidurkis;
+}
+
 //Vidurkio Skaciavimas
 void Vidurkis(Studentas& Laikinas) {
     float PazymiuVidurkis = 0.0;
@@ -331,20 +395,49 @@ void SukurtiStudentoFaila(int studentCount, int gradeCount, const string& filena
 }
 
 void KategorizuotiStudentus(const vector<Studentas>& Grupe, vector<Studentas>& BelowFive, vector<Studentas>& AboveFive) {
-    auto start = std::chrono::high_resolution_clock::now();
 
-    for (const auto& a : Grupe) {
-        if(a.Vidurkis < 5.0){
-            BelowFive.push_back(a);
-        } else {
-            AboveFive.push_back(a);
-        }
+    char option;
+    cout << "Pasirinkite rusiavimo metoda: (W - varda, P - pavarde, V - vidurki, N - nerusiuot): ";
+    cin >> option;
+
+    auto start1 = std::chrono::high_resolution_clock::now();
+    for (auto& a : Grupe) {
+                if(a.Vidurkis < 5.0){
+                    BelowFive.push_back(a);
+                } else {
+                    AboveFive.push_back(a);
+                }
+            }
+    auto finish1 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed2 = finish1 - start1;
+    ElapsedTime2 = elapsed2.count();
+    cout << "Studentu dalinimas i kategorijas uztruko: " << elapsed2.count() << " sekundziu" << endl;
+
+    auto start = std::chrono::high_resolution_clock::now();
+    switch (option) {
+        case 'W':
+            sort(BelowFive.begin(), BelowFive.end(), compareByName);
+            sort(AboveFive.begin(), AboveFive.end(), compareByName);
+            break;
+        case 'P':
+            sort(BelowFive.begin(), BelowFive.end(), compareBySurname);
+            sort(AboveFive.begin(), AboveFive.end(), compareBySurname);
+            break;
+        case 'V':
+            sort(BelowFive.begin(), BelowFive.end(), compareByGrade);
+            sort(AboveFive.begin(), AboveFive.end(), compareByGrade);
+            break;
+        case 'N':
+            break;
+        default:
+            cout << "Netinkamas ivedimas. Programa baigiasi." << endl;
+            exit(1);
     }
 
     auto finish = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed2 = finish - start;
-    ElapsedTime2 = elapsed2.count();
-    cout << "Studentu dalinimas i kategorijas uztruko: " << elapsed2.count() << " sekundziu" << endl;
+    std::chrono::duration<double> elapseds = finish - start;
+    SortTime = elapseds.count();
+    cout << "Studentu rusiavimas pagal parametra uztruko: " << elapseds.count() << " sekundziu" << endl;
 }
 
 void KategorijuFailai(const vector<Studentas>& BelowFive, const vector<Studentas>& AboveFive) {
@@ -357,49 +450,55 @@ void KategorijuFailai(const vector<Studentas>& BelowFive, const vector<Studentas
     ofstream BelowFiveFile(fileBelowFive);
     ofstream AboveFiveFile(fileAboveFive);
 
-    auto start = std::chrono::high_resolution_clock::now();
-
     if (!BelowFiveFile.is_open() || !AboveFiveFile.is_open()) {
         cout << "Nepavyko atidaryti failo: " << (BelowFiveFile.is_open() ? fileAboveFive : fileBelowFive) << endl;
         exit(1);
     }
-
+    auto start1 = std::chrono::high_resolution_clock::now();
     // Output rezultatas
     BelowFiveFile << "-------------------------------------------------\n";
     BelowFiveFile << std::left << std::setw(17) << "Vardas" << std::setw(15) << "Pavarde" << std::setw(15) << "Galutinis (Vid.)" << "\n";
     BelowFiveFile << "-------------------------------------------------\n";
 
-    // Output rezultatas
-    AboveFiveFile << "-------------------------------------------------\n";
-    AboveFiveFile << std::left << std::setw(17) << "Vardas" << std::setw(15) << "Pavarde" << std::setw(15) << "Galutinis (Vid.)" << "\n";
-    AboveFiveFile << "-------------------------------------------------\n";
-
     // Duomenys rasomos studentams su vidurki < 5
     for(const auto& a : BelowFive){
-        BelowFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(18) << a.Vardas
+        BelowFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(17) << a.Vardas
                               << std::setw(20) << a.Pavarde
                               << std::setw(15) << a.Vidurkis
                               << "\n";
     }
 
+    auto finish1 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed3 = finish1 - start1;
+    ElapsedTime3 = elapsed3.count();
+
+
+    auto start = std::chrono::high_resolution_clock::now();
+    // Output rezultatas
+    AboveFiveFile << "-------------------------------------------------\n";
+    AboveFiveFile << std::left << std::setw(17) << "Vardas" << std::setw(15) << "Pavarde" << std::setw(15) << "Galutinis (Vid.)" << "\n";
+    AboveFiveFile << "-------------------------------------------------\n";
+
     // Duomenys rasomos studentams su vidurki >= 5
     for(const auto& a : AboveFive){
-        AboveFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(18) << a.Vardas
+        AboveFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(17) << a.Vardas
                             << std::setw(20) << a.Pavarde
                             << std::setw(15) << a.Vidurkis
                             << "\n";
     }
 
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed4 = finish - start;
+    ElapsedTime4 = elapsed4.count();
+
     BelowFiveFile.close();
     AboveFiveFile.close();
-
-    auto finish = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed3 = finish - start;
-    ElapsedTime3 = elapsed3.count();
     cout << "Galutiniai matavimo rezultatai: " << endl;
     cout << "Failo nuskaitymo laikas: " << ElapsedTime1 << " sekundziu" << endl;
+    cout << "Studentu rusiavimas pagal parametra uztruko: " << SortTime << " sekundziu" << endl;
     cout << "Studentu dalinimas i kategorijas uztruko: " << ElapsedTime2 << " sekundziu" << endl;
-    cout << "Studentu irasymas i failus uztruko: " << ElapsedTime3 << " sekundziu" << endl;
-    double totalElapsed = ElapsedTime1 + ElapsedTime2 + ElapsedTime3;
+    cout << "Studentu irasymas vargsiuku faila: " << ElapsedTime3 << " sekundziu" << endl;
+    cout << "Studentu irasymas galvociu faila: " << ElapsedTime4 << " sekundziu" << endl;
+    double totalElapsed = ElapsedTime1 + ElapsedTime2 + ElapsedTime3 + ElapsedTime4;
     cout << "Bendras matavimo laikas: " << std::setprecision(15) << totalElapsed << " sekundziu" << endl;
 }
