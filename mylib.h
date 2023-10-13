@@ -35,6 +35,9 @@ struct Studentas {
 };
 
 bool Rusiavimas(const Studentas& a, const Studentas& b);
+bool compareByName(const Studentas& a, const Studentas& b);
+bool compareBySurname(const Studentas& a, const Studentas& b);
+bool compareByGrade(const Studentas& a, const Studentas& b);
 void Vidurkis(Studentas& Laikinas);
 void Mediana(Studentas& Laikinas);
 void FailoSkaitymas(vector<Studentas>& Grupe);
