@@ -67,8 +67,8 @@ bool compareByName(const Studentas& a, const Studentas& b) {
 
 // Rusiavimas tik pagal pavarde
 bool compareBySurname(const Studentas& a, const Studentas& b) {
-    string strA = a.Vardas;
-    string strB = b.Vardas;
+    string strA = a.Pavarde;
+    string strB = b.Pavarde;
     size_t i = 0, j = 0;
     while (i < strA.size() && j < strB.size()) {
         if (isdigit(strA[i]) && isdigit(strB[j])) {
