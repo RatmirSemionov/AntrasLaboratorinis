@@ -10,12 +10,19 @@ int main() {
     ofstream outputFile;
     char FailoGeneravimas;
     char Padalinimas;
-    //Ar norim sugeneruot faila
-    cout << "Ar norite sugeneruot studentu faila? (T - taip, N - ne): ";
+    //Ar norim sugeneruot faila, arba jau turim.
+    cout << "Ar norite sugeneruot studentu faila arba naudot sugeneruota? (T - taip, N - ne, J - jau turim faila): ";
     cin >> FailoGeneravimas;
-    if (FailoGeneravimas != 'T' && FailoGeneravimas != 'N') {
+    if (FailoGeneravimas != 'T' && FailoGeneravimas != 'N' && FailoGeneravimas != 'J') {
         cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
         exit(1);
+    }
+    if (FailoGeneravimas == 'J') {
+        vector<Studentas> BelowFive;
+        vector<Studentas> AboveFive;
+        FailoSkaitymas(Grupe);
+        KategorizuotiStudentus(Grupe, BelowFive, AboveFive);
+        KategorijuFailai(BelowFive, AboveFive);
     }
     if (FailoGeneravimas == 'T') {
         int studentCount;
