@@ -102,8 +102,8 @@ bool compareByGrade(const Studentas& a, const Studentas& b) {
 //Vidurkio Skaciavimas
 void Vidurkis(Studentas& Laikinas) {
     float PazymiuVidurkis = 0.0;
-    for (int j = 0; j < Laikinas.Pazymiai.size(); j++) {
-        PazymiuVidurkis += Laikinas.Pazymiai[j];
+    for (std::list<int>::iterator it = Laikinas.Pazymiai.begin(); it != Laikinas.Pazymiai.end(); ++it) {
+        PazymiuVidurkis += *it;
     }
     if (!Laikinas.Pazymiai.empty()) {
         PazymiuVidurkis /= Laikinas.Pazymiai.size();
@@ -112,16 +112,21 @@ void Vidurkis(Studentas& Laikinas) {
 }
 //Medianos Skaiciavimas
 void Mediana(Studentas& Laikinas) {
-    sort(Laikinas.Pazymiai.begin(), Laikinas.Pazymiai.end());
-    int vidut = Laikinas.Pazymiai.size() / 2;
+    Laikinas.Pazymiai.sort();
+    std::list<int>::iterator it = Laikinas.Pazymiai.begin();
+    std::advance(it,Laikinas.Pazymiai.size() / 2);
+
     if (Laikinas.Pazymiai.size() % 2 == 0) {
-        Laikinas.Mediana = (Laikinas.Pazymiai[vidut - 1] + Laikinas.Pazymiai[vidut]) / 2.0;
+        int right = *it;
+        --it;
+        int left = *it;
+        Laikinas.Mediana = (left + right) / 2.0;
     } else {
-        Laikinas.Mediana = Laikinas.Pazymiai[vidut];
+        Laikinas.Mediana = *it;
     }
 }
 //Duomenu nuskaitymas is failo(Pavadinimus rasyt su .txt, pvz. studentai10000.txt)
-void FailoSkaitymas(vector<Studentas>& Grupe) {
+void FailoSkaitymas(list<Studentas>& Grupe) {
     string inputFileName;
     cout << "Jusu aplankale esantis teksto failas: " << endl;
     system("dir *.txt");
@@ -308,7 +313,7 @@ void PazymiuIvedimas(Studentas& Laikinas) {
 }
 
 //Studentu skaiciu ir ivedimo budo funkcija
-void StudentuInfo(Studentas& Laikinas, vector<Studentas>& Grupe) {
+void StudentuInfo(Studentas& Laikinas, list<Studentas>& Grupe) {
     int StudentuSkaicius;
     char Pasirinkimas;
     cout << "Iveskite studentu skaiciu: ";
@@ -394,7 +399,7 @@ void SukurtiStudentoFaila(int studentCount, int gradeCount, const string& filena
     cout << "Failo kurimo laikas: " << elapsed.count() << " sekundziu" << endl;
 }
 
-void KategorizuotiStudentus(const vector<Studentas>& Grupe, vector<Studentas>& BelowFive, vector<Studentas>& AboveFive) {
+void KategorizuotiStudentus(const list<Studentas>& Grupe, list<Studentas>& BelowFive, list<Studentas>& AboveFive) {
 
     char option;
     cout << "Pasirinkite rusiavimo metoda: (W - varda, P - pavarde, V - vidurki, N - nerusiuot): ";
@@ -416,16 +421,16 @@ void KategorizuotiStudentus(const vector<Studentas>& Grupe, vector<Studentas>& B
     auto start = std::chrono::high_resolution_clock::now();
     switch (option) {
         case 'W':
-            sort(BelowFive.begin(), BelowFive.end(), compareByName);
-            sort(AboveFive.begin(), AboveFive.end(), compareByName);
+            BelowFive.sort(compareByName);
+            AboveFive.sort(compareByName);
             break;
         case 'P':
-            sort(BelowFive.begin(), BelowFive.end(), compareBySurname);
-            sort(AboveFive.begin(), AboveFive.end(), compareBySurname);
+            BelowFive.sort(compareBySurname);
+            AboveFive.sort(compareBySurname);
             break;
         case 'V':
-            sort(BelowFive.begin(), BelowFive.end(), compareByGrade);
-            sort(AboveFive.begin(), AboveFive.end(), compareByGrade);
+            BelowFive.sort(compareByGrade);
+            AboveFive.sort(compareByGrade);
             break;
         case 'N':
             break;
@@ -440,7 +445,7 @@ void KategorizuotiStudentus(const vector<Studentas>& Grupe, vector<Studentas>& B
     cout << "Studentu rusiavimas pagal parametra uztruko: " << elapseds.count() << " sekundziu" << endl;
 }
 
-void KategorijuFailai(const vector<Studentas>& BelowFive, const vector<Studentas>& AboveFive) {
+void KategorijuFailai(const list<Studentas>& BelowFive, const list<Studentas>& AboveFive) {
     string fileBelowFive, fileAboveFive;
     cout << "Iveskite rezultato failo pavadinima studentams su galutini vidurki < 5: ";
     cin >> fileBelowFive;
