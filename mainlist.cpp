@@ -2,7 +2,7 @@
 
 int main() {
     Studentas Laikinas;
-    vector<Studentas> Grupe;
+    list<Studentas> Grupe;
     char Pasirinktas;
     char Pasirinkimas2;
     string inputFileName;
@@ -18,8 +18,8 @@ int main() {
         exit(1);
     }
     if (FailoGeneravimas == 'J') {
-        vector<Studentas> BelowFive;
-        vector<Studentas> AboveFive;
+        list<Studentas> BelowFive;
+        list<Studentas> AboveFive;
         FailoSkaitymas(Grupe);
         KategorizuotiStudentus(Grupe, BelowFive, AboveFive);
         KategorijuFailai(BelowFive, AboveFive);
@@ -47,8 +47,8 @@ int main() {
         cout << "Ar norite padalinti studentus i dvi kategorijas?(Vargsiukai, Galvociai) - (T - taip, N - ne): ";
         cin >> Padalinimas;
         if (Padalinimas == 'T') {
-            vector<Studentas> BelowFive;
-            vector<Studentas> AboveFive;
+            list<Studentas> BelowFive;
+            list<Studentas> AboveFive;
             FailoSkaitymas(Grupe);
             KategorizuotiStudentus(Grupe, BelowFive, AboveFive);
             KategorijuFailai(BelowFive, AboveFive);
@@ -76,7 +76,7 @@ int main() {
     }
 
     // Studentu rusiavimas
-    sort(Grupe.begin(), Grupe.end(), Rusiavimas);
+    Grupe.sort(Rusiavimas);
 
     std::ostream &output = (Pasirinkimas2 == 'F') ? outputFile : cout;
     //Pasirinkimas ka apskaiciuot
