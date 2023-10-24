@@ -1,6 +1,8 @@
 # PirmasLaboratorinis
 
-Testavimo vidurkiai:
+Sistemos parametrai: Intel(R) Celeron(R) CPU 5205U @ 1.90GHz, RAM: 8.00GB, SSD: 225GB.
+
+Testavimo vidurkiai su vector:
 | Testavimas                    |      1000      |     10000     |     100000    |     1000000    |     10000000    |
 |-------------------------------|:--------------:|:-------------:|:-------------:|:--------------:|:---------------:|
 | Failo Nuskaitymas             |  0.00474288 s. | 0.07705792 s. |  0.8252412 s. |   7.056874 s.  |   74.33216 s.   |
