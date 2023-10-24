@@ -13,6 +13,7 @@
 #include <cctype>
 #include <ios>
 #include <chrono>
+#include <list>
 
 using std::cout;
 using std::string;
@@ -25,10 +26,11 @@ using std::istringstream;
 using std::ofstream;
 using std::left;
 using std::to_string;
+using std::list;
 
 struct Studentas {
     string Vardas, Pavarde;
-    vector<int> Pazymiai;
+    list<int> Pazymiai;
     int Egzaminas;
     float Vidurkis;
     double Mediana;
@@ -40,13 +42,13 @@ bool compareBySurname(const Studentas& a, const Studentas& b);
 bool compareByGrade(const Studentas& a, const Studentas& b);
 void Vidurkis(Studentas& Laikinas);
 void Mediana(Studentas& Laikinas);
-void FailoSkaitymas(vector<Studentas>& Grupe);
+void FailoSkaitymas(list<Studentas>& Grupe);
 void RezultatoFailas(ofstream& outputFile);
 void EgzaminoPazymis(Studentas& Laikinas);
 void PazymiuGeneravimas(Studentas& Laikinas);
 void PazymiuIvedimas(Studentas& Laikinas);
-void StudentuInfo(Studentas& Laikinas, vector<Studentas>& Grupe);
+void StudentuInfo(Studentas& Laikinas, list<Studentas>& Grupe);
 void SukurtiStudentoFaila(int studentCount, int gradeCount, const string& filename);
-void KategorizuotiStudentus(const vector<Studentas>& Grupe, vector<Studentas>& BelowFive, vector<Studentas>& AboveFive);
-void KategorijuFailai(const vector<Studentas>& BelowFive, const vector<Studentas>& AboveFive);
+void KategorizuotiStudentus(const list<Studentas>& Grupe, list<Studentas>& BelowFive, list<Studentas>& AboveFive);
+void KategorijuFailai(const list<Studentas>& BelowFive, const list<Studentas>& AboveFive);
 #endif // MYLIB_H_INCLUDED
