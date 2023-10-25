@@ -93,5 +93,11 @@ int main() {
     for (auto &a : Grupe) {
         output << setw(18) << left << a.Vardas << setw(20) << left << a.Pavarde << setw(15) << (Pasirinktas == 'V' ? a.Vidurkis : a.Mediana) << endl;
     }
+    cout << "--------------------------------------------------\n";
+    cout << "Objekto saugojimo atmintyje adresai:\n";
+    cout << "--------------------------------------------------\n";
+    for (auto &a : Grupe) {
+        cout << "Objekto saugojimo atmintyje adresas studento " << a.Vardas << " " << a.Pavarde << ": "<< &a << endl;
+    }
     }
 }
