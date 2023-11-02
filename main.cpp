@@ -86,18 +86,12 @@ int main() {
         cout << "Klaida. Netinkamas ivedimas, programa baigiasi" << endl;
         return 1;
     }
-    output << "--------------------------------------------------" << endl;
-    output << setw(17) << left << "Vardas " << setw(15) << left << " Pavarde " << setw(15) << (Pasirinktas == 'V' ? " Galutinis (Vid.) " : " Galutinis (Med.) ") << endl;
-    output << "--------------------------------------------------" << endl;
+    output << "----------------------------------------------------------------------" << endl;
+    output << setw(17) << left << "Vardas " << setw(15) << left << " Pavarde " << setw(20) << (Pasirinktas == 'V' ? " Galutinis (Vid.) " : " Galutinis (Med.) ") << "Adresas atmintyje" << endl;
+    output << "----------------------------------------------------------------------" << endl;
     output << std::fixed << std::setprecision(2);
     for (auto &a : Grupe) {
-        output << setw(18) << left << a.Vardas << setw(20) << left << a.Pavarde << setw(15) << (Pasirinktas == 'V' ? a.Vidurkis : a.Mediana) << endl;
-    }
-    cout << "--------------------------------------------------\n";
-    cout << "Objekto saugojimo atmintyje adresai:\n";
-    cout << "--------------------------------------------------\n";
-    for (auto &a : Grupe) {
-        cout << "Objekto saugojimo atmintyje adresas studento " << a.Vardas << " " << a.Pavarde << ": "<< &a << endl;
+        output << setw(18) << left << a.Vardas << setw(20) << left << a.Pavarde << setw(18) << (Pasirinktas == 'V' ? a.Vidurkis : a.Mediana) << &a << endl;
     }
     }
 }
