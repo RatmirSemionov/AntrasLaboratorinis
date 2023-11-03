@@ -22,7 +22,7 @@ int main() {
         list<Studentas> AboveFive;
         FailoSkaitymas(Grupe);
         KategorizuotiStudentus(Grupe, BelowFive, AboveFive);
-        KategorijuFailai(BelowFive, AboveFive);
+        KategorijuFailai(Grupe, BelowFive, AboveFive);
     }
     if (FailoGeneravimas == 'T') {
         int studentCount;
@@ -51,7 +51,7 @@ int main() {
             list<Studentas> AboveFive;
             FailoSkaitymas(Grupe);
             KategorizuotiStudentus(Grupe, BelowFive, AboveFive);
-            KategorijuFailai(BelowFive, AboveFive);
+            KategorijuFailai(Grupe, BelowFive, AboveFive);
         }
         else {
         cout << "Programa baigiasi, darbas atliktas" << endl;
