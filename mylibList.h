@@ -49,6 +49,6 @@ void PazymiuGeneravimas(Studentas& Laikinas);
 void PazymiuIvedimas(Studentas& Laikinas);
 void StudentuInfo(Studentas& Laikinas, list<Studentas>& Grupe);
 void SukurtiStudentoFaila(int studentCount, int gradeCount, const string& filename);
-void KategorizuotiStudentus(const list<Studentas>& Grupe, list<Studentas>& BelowFive, list<Studentas>& AboveFive);
-void KategorijuFailai(const list<Studentas>& BelowFive, const list<Studentas>& AboveFive);
+void KategorizuotiStudentus(list<Studentas>& Grupe, list<Studentas>& BelowFive, list<Studentas>& AboveFive);
+void KategorijuFailai(const list<Studentas>& Grupe, const list<Studentas>& BelowFive, const list<Studentas>& AboveFive);
 #endif // MYLIB_H_INCLUDED
