@@ -407,6 +407,10 @@ void KategorizuotiStudentus(list<Studentas>& Grupe, list<Studentas>& BelowFive, 
     cin >> option;
     cout << "Pasirinkite padalinimo i kategorijas strategija (1, 2 arba 3): ";
     cin >> strategija;
+    if (strategija != 1 && strategija != 2 && strategija != 3) {
+        cout << "Klaida. Netinkamas ivedimas, programa baigiasi" << endl;
+        exit(1);
+    }
     auto start1 = std::chrono::high_resolution_clock::now();
     if (strategija == 1) {
     for (auto& a : Grupe) {
@@ -418,22 +422,29 @@ void KategorizuotiStudentus(list<Studentas>& Grupe, list<Studentas>& BelowFive, 
             }
     }
     else if (strategija == 2) {
-        for (auto it = Grupe.begin(); it != Grupe.end();) {
-        if (it->Vidurkis < 5.0) {
-            BelowFive.push_back(*it);
-            it = Grupe.erase(it);
-        } else {
-            ++it;
-        }
-    }
+        // Atbuline eiga
+    Grupe.sort([](const Studentas& a, const Studentas& b) {
+    return a.Vidurkis > b.Vidurkis;
+});
+
+// Naudojam pop istrinimui is Grupe konteinerio
+while (!Grupe.empty() && Grupe.back().Vidurkis < 5.0) {
+    BelowFive.push_back(Grupe.back());
+    Grupe.pop_back();
 }
+}
+    else if (strategija == 3) {
+        std::partition_copy(Grupe.begin(), Grupe.end(), std::back_inserter(BelowFive), std::back_inserter(AboveFive), [](const auto& a) {
+            return a.Vidurkis < 5.0;
+        });
+    }
     auto finish1 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed2 = finish1 - start1;
     ElapsedTime2 = elapsed2.count();
     cout << "Studentu dalinimas i kategorijas uztruko: " << elapsed2.count() << " sekundziu" << endl;
 
     auto start = std::chrono::high_resolution_clock::now();
-    if (strategija == 1) {
+    if (strategija == 1 || strategija == 3) {
     switch (option) {
         case 'W':
             BelowFive.sort(compareByName);
@@ -494,6 +505,11 @@ void KategorijuFailai(const list<Studentas>& Grupe, const list<Studentas>& Below
     ofstream BelowFiveFile(fileBelowFive);
     ofstream AboveFiveFile(fileAboveFive);
 
+    if (strategy != 1 && strategy != 2 && strategy != 3) {
+        cout << "Klaida. Netinkamas ivedimas, programa baigiasi" << endl;
+        exit(1);
+    }
+
     if (!BelowFiveFile.is_open() || !AboveFiveFile.is_open()) {
         cout << "Nepavyko atidaryti failo: " << (BelowFiveFile.is_open() ? fileAboveFive : fileBelowFive) << endl;
         exit(1);
@@ -524,7 +540,7 @@ void KategorijuFailai(const list<Studentas>& Grupe, const list<Studentas>& Below
     AboveFiveFile << "-------------------------------------------------\n";
 
     // Duomenys rasomos studentams su vidurki >= 5
-    if (strategy == 1) {
+    if (strategy == 1 || strategy == 3) {
     for(const auto& a : AboveFive){
         AboveFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(17) << a.Vardas
                             << std::setw(20) << a.Pavarde
