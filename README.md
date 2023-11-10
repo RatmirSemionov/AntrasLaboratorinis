@@ -16,6 +16,7 @@ Pridėta galimybė surušiuot studentus pagal vardus arba
 pavardes. 
 Programa yra padalinta į source failus ir į header failus, taip pat naudojamas
 išimčių valdymas.
+
 V0.2 -
 Realizuotas studentu failu generavimas, kur galima pasirinkt kiek studentu duomenu
 generuot, pasirinkt kiek namu darbu jie turi.
@@ -29,6 +30,7 @@ kūrimas, duomenų nuskaitymas iš failų, studentų dalinimas į kategorijas, s
 studentų išvedimas į du naujus failus.
 Studentai taip pat gali but rušiuojami pagal
 pasirinkta parametra: Varda, Pavarde arba Vidurki.
+
 V0.3 -
 Buvo atliekamas projekto testavimas pakeičiant konteineri iš vector į list.
 Laiko matavimai atliekami taip pat, pateiktos sistemos parametrai ir testavimo
@@ -36,6 +38,7 @@ vidurkiu rezultatai su
 prieš tai sugeneruotais failais vector ir list atveju.
 Rankiniu ivedimui buvo pridėtas atminties adresas, kad galima būtų matyt kur
 duomenis yra saugomi.
+
 V1.0 -
 Buvo analizuotas studentu dalinimas į kategorijas, bandant pritaikyt skirtingas
 kategorijas, siekiant pamatyti, kuri strategija veikia greičiau ir kiek atminties
