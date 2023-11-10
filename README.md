@@ -1,5 +1,39 @@
 # PirmasLaboratorinis
 
+V0.1 
+Buvo sukurta studentu struktura, kuri turi studentu varda, pavarde,
+namu darbu pažymius, egzamino pažymi. Realizuotas manualus duomenų ivedimas,
+po kurio suskaičiuojamas studentu pažymiu galutinis balas arba mediana. Pridėtas
+pasirinkimas ar vartotojas žino kiek namu darbu turi studentas, taip pat realizuotas
+atsitiktinis pažymiu generavimas.
+V.pradinė
+Pridėta galimybė nuskaityti duomenis iš failo. Failo atvėju, rezultatu išvedimas
+yra siunčiamas į kita faila. Pridėta galimybė surušiuot studentus pagal vardus arba
+pavardes. Programa yra padalinta į source failus ir į header failus, taip pat naudojamas
+išimčių valdymas.
+V0.2
+Realizuotas studentu failu generavimas, kur galima pasirinkt kiek studentu duomenu
+generuot, pasirinkt kiek namu darbu jie turi. Tikslas buvo sukurt 5 failus sudarytus
+iš: 1000, 10000, 100000, 1000000, 10000000 įrašų. Studentai iš failų yra dalinami
+į dvi kategorijas: Studentai su galutinį balą < 5.0 yra vargščiukai, o studentai
+su galutinį balą >= 5.0 yra galvočiai. Realizuotos matavimo laikai, sumatuotas failo
+kūrimas, duomenų nuskaitymas iš failų, studentų dalinimas į kategorijas, sūrušiuotų
+studentų išvedimas į du naujus failus. Studentai taip pat gali but rušiuojami pagal
+pasirinkta parametra: Varda, Pavarde arba Vidurki.
+V0.3
+Buvo atliekamas projekto testavimas pakeičiant konteineri iš vector į list.
+Laiko matavimai atliekami taip pat, pateiktos sistemos parametrai ir testavimo
+vidurkiu rezultatai su prieš tai sugeneruotais failais vector ir list atveju.
+Rankiniu ivedimui buvo pridėtas atminties adresas, kad galima būtų matyt kur
+duomenis yra saugomi.
+V1.0
+Buvo analizuotas studentu dalinimas į kategorijas, bandant pritaikyt skirtingas
+kategorijas, siekiant pamatyti, kuri strategija veikia greičiau ir kiek atminties
+užima. Sudarant dvi strategijas, pasirenkama grečiausia iš jų ir yra patobulinta
+naudojant algoritmus. Vector ir List atveju pateiktos lentelės su studentu dalinimo
+į kategorijas pagal strategijas testu vidurkiai, taip pat atminties matavimai nuotraukomis.
+Yra paruoštas cmake failas, įdiegimo ir paleidimo proceso instrukciją.
+
 Sistemos parametrai: Intel(R) Celeron(R) CPU 5205U @ 1.90GHz, RAM: 8.00GB, SSD: 225GB.
 
 Testavimo vidurkiai su vector:
