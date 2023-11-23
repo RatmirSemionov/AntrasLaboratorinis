@@ -49,6 +49,12 @@ Vector ir List atveju pateiktos lentelės su studentu dalinimo
 į kategorijas pagal strategijas testu vidurkiai, taip pat atminties matavimai nuotraukomis.
 Yra paruoštas cmake failas, įdiegimo ir paleidimo proceso instrukciją.
 
+V1.1 -
+Vietoj strukturos kodui buvo panaudota klasę, buvo padaryti pakeitimai visame kode kad jis
+veiktu su class. Buvo atliktas palyginimas tarp strukturos ir klases, naudojant 100000 ir
+1000000 failus, taip pat greičiausia dalinimo strategija. Be to, dar buvo atlikti
+testavimai naudojant flagus O1,O2,O3 tam, kad pamatyt kaip jie optimizuoja koda.
+
 
 Naudojimosi instrukcija:
 
