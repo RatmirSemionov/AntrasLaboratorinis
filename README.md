@@ -120,12 +120,12 @@ Studentu dalinimo i kategorijas testavimo vidurkiai pagal strategijas:
 
 
 V1.1:
-Struct vektoriaus atveju testavimo rezultatai naudojant greičiausia dalijimo strategija
-|         Vector(Struct)        |     100000    |    1000000    |
-|:-----------------------------:|:-------------:|:-------------:|
-|       Failo Nuskaitymas       | 1.07586886 s. |  7.5074866 s. |
-|        Sort() veiksmas        |  0.4211282 s. |  4.860546 s.  |
-| Padalijimas į dvi kategorijas |  0.0383447 s. |  0.4194998 s. |
-|   Rašymas į vargščiukų failą  |  0.1644058 s. |  1.713978 s.  |
-|    Rašymas į galvočių failą   |  0.1898104 s. |  1.7326022 s. |
-|       Bendras Matavimas       | 1.34658872 s. | 11.3739598 s. |
+Struct ir Class vektoriaus atveju testavimo rezultatai naudojant greičiausia dalijimo strategija
+|         Vector(Struct)        |     100000    |    1000000    |         Vector(Class)         |     100000    |    1000000   |
+|:-----------------------------:|:-------------:|:-------------:|:-----------------------------:|:-------------:|:------------:|
+|       Failo Nuskaitymas       | 1.07586886 s. |  7.5074866 s. |       Failo Nuskaitymas       |  1.734298 s.  |  15.05332 s. |
+|        Sort() veiksmas        |  0.4211282 s. |  4.860546 s.  |        Sort() veiksmas        |  0.4335954 s. |  4.842296 s. |
+| Padalijimas į dvi kategorijas |  0.0383447 s. |  0.4194998 s. | Padalijimas į dvi kategorijas | 0.03993036 s. | 0.4644954 s. |
+|   Rašymas į vargščiukų failą  |  0.1644058 s. |  1.713978 s.  |   Rašymas į vargščiukų failą  |  0.1677366 s. |  1.848376 s. |
+|    Rašymas į galvočių failą   |  0.1898104 s. |  1.7326022 s. |    Rašymas į galvočių failą   |  0.180565 s.  | 1.6300066 s. |
+|       Bendras Matavimas       | 1.34658872 s. | 11.3739598 s. |       Bendras Matavimas       |  2.1229318 s. | 18.777604 s. |
