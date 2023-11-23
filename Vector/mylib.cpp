@@ -3,12 +3,12 @@ double ElapsedTime1 = 0, ElapsedTime2 = 0, ElapsedTime3 = 0, ElapsedTime4, SortT
 //Rusiavimo funkcija
 bool Rusiavimas(const Studentas& a, const Studentas& b) {
 
-    string strA = a.Vardas;
-    string strB = b.Vardas;
+    string strA = a.vardas();
+    string strB = b.vardas();
 
     if(strA == strB) { // Jeigu vardai vienodi, palyginam pagal pavarde
-         strA = a.Pavarde;
-         strB = b.Pavarde;
+         strA = a.pavarde();
+         strB = b.pavarde();
     }
 
     size_t i = 0, j = 0;
@@ -38,8 +38,8 @@ bool Rusiavimas(const Studentas& a, const Studentas& b) {
 
 // Rusiavimas tik pagal varda
 bool compareByName(const Studentas& a, const Studentas& b) {
-    string strA = a.Vardas;
-    string strB = b.Vardas;
+    string strA = a.vardas();
+    string strB = b.vardas();
     size_t i = 0, j = 0;
     while (i < strA.size() && j < strB.size()) {
         if (isdigit(strA[i]) && isdigit(strB[j])) {
@@ -67,8 +67,8 @@ bool compareByName(const Studentas& a, const Studentas& b) {
 
 // Rusiavimas tik pagal pavarde
 bool compareBySurname(const Studentas& a, const Studentas& b) {
-    string strA = a.Pavarde;
-    string strB = b.Pavarde;
+    string strA = a.pavarde();
+    string strB = b.pavarde();
     size_t i = 0, j = 0;
     while (i < strA.size() && j < strB.size()) {
         if (isdigit(strA[i]) && isdigit(strB[j])) {
@@ -96,28 +96,29 @@ bool compareBySurname(const Studentas& a, const Studentas& b) {
 
 // Rusiavimas pagal vidurki
 bool compareByGrade(const Studentas& a, const Studentas& b) {
-    return a.Vidurkis < b.Vidurkis;
+    return a.vidurkis() < b.vidurkis();
 }
 
 //Vidurkio Skaciavimas
 void Vidurkis(Studentas& Laikinas) {
     float PazymiuVidurkis = 0.0;
-    for (int j = 0; j < Laikinas.Pazymiai.size(); j++) {
-        PazymiuVidurkis += Laikinas.Pazymiai[j];
+    for (int j = 0; j < Laikinas.pazymiai().size(); j++) {
+        PazymiuVidurkis += Laikinas.pazymiai()[j];
     }
-    if (!Laikinas.Pazymiai.empty()) {
-        PazymiuVidurkis /= Laikinas.Pazymiai.size();
+    if (!Laikinas.pazymiai().empty()) {
+        PazymiuVidurkis /= Laikinas.pazymiai().size();
     }
-    Laikinas.Vidurkis = 0.4 * PazymiuVidurkis + 0.6 * Laikinas.Egzaminas;
+    Laikinas.setvidurkis(0.4 * PazymiuVidurkis + 0.6 * Laikinas.egzaminas());
 }
 //Medianos Skaiciavimas
 void Mediana(Studentas& Laikinas) {
-    sort(Laikinas.Pazymiai.begin(), Laikinas.Pazymiai.end());
-    int vidut = Laikinas.Pazymiai.size() / 2;
-    if (Laikinas.Pazymiai.size() % 2 == 0) {
-        Laikinas.Mediana = (Laikinas.Pazymiai[vidut - 1] + Laikinas.Pazymiai[vidut]) / 2.0;
+    Laikinas.sortPazymiai();
+    vector<int> pazymiai = Laikinas.pazymiai();
+    int vidut = pazymiai.size() / 2;
+    if (pazymiai.size() % 2 == 0) {
+        Laikinas.setmediana((pazymiai[vidut - 1] + pazymiai[vidut]) / 2.0);
     } else {
-        Laikinas.Mediana = Laikinas.Pazymiai[vidut];
+        Laikinas.setmediana(pazymiai[vidut]);
     }
 }
 //Duomenu nuskaitymas is failo(Pavadinimus rasyt su .txt, pvz. studentai10000.txt)
@@ -140,19 +141,24 @@ void FailoSkaitymas(vector<Studentas>& Grupe) {
     getline(inputFile, line); // Ignoruojam header linija
     while (getline(inputFile, line)) {
         istringstream iss(line);
-        iss >> Laikinas.Vardas >> Laikinas.Pavarde;
+        iss >> inputFileName;
+        Laikinas.setvardas(inputFileName);
+        iss >> inputFileName;
+        Laikinas.setpavarde(inputFileName);
 
+        vector<int> pazymiai;
         string value;
         while (iss >> value) {
             if (all_of(value.begin(), value.end(), ::isdigit)) {
                 int pazymys = std::stoi(value);
-                Laikinas.Pazymiai.push_back(pazymys);
+                pazymiai.push_back(pazymys);
             }
         }
 
-        if (!Laikinas.Pazymiai.empty()) {
-            Laikinas.Egzaminas = Laikinas.Pazymiai.back();
-            Laikinas.Pazymiai.pop_back();
+        if (!pazymiai.empty()) {
+            Laikinas.setegzaminas(pazymiai.back());
+            pazymiai.pop_back();
+            Laikinas.setpazymiai(pazymiai);
         } else {
             continue;
         }
@@ -162,7 +168,7 @@ void FailoSkaitymas(vector<Studentas>& Grupe) {
         Mediana(Laikinas);
 
         Grupe.push_back(Laikinas);
-        Laikinas.Pazymiai.clear();
+        pazymiai.clear();
     }
     inputFile.close();
     auto finish = std::chrono::high_resolution_clock::now();
@@ -187,59 +193,62 @@ void RezultatoFailas(ofstream& outputFile) {
 void EgzaminoPazymis(Studentas& Laikinas) {
     char Pasirinkimas;
     cout << "Pasirinkite kaip ivesite egzamino pazymi (M - manualiai, A - automatiskai): ";
-            cin >> Pasirinkimas;
+    cin >> Pasirinkimas;
 
-            if (Pasirinkimas != 'M' && Pasirinkimas != 'A') {
-                cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
-                exit(1);
-            }
+    if (Pasirinkimas != 'M' && Pasirinkimas != 'A') {
+        cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
+        exit(1);
+    }
 
-            if (Pasirinkimas == 'A') {
-                Laikinas.Egzaminas = rand() % 11;
-                cout << "Sugeneruotas egzamino pazymis: " << Laikinas.Egzaminas << '\n';
-            } else if (Pasirinkimas == 'M') {
-                cout << "Iveskite egzamino pazymi: ";
-                cin >> Laikinas.Egzaminas;
-                if (cin.fail() || Laikinas.Egzaminas < 0 || Laikinas.Egzaminas > 10) {
-                    cout << "Klaida. Netinkamas ivedimas, programa baigiasi" << endl;
-                    exit(1);
-                }
-            }
+    int Egzaminas;
+    if (Pasirinkimas == 'A') {
+        Egzaminas = rand() % 11;
+        Laikinas.setegzaminas(Egzaminas);
+        cout << "Sugeneruotas egzamino pazymis: " << Egzaminas << '\n';
+    } else if (Pasirinkimas == 'M') {
+        cout << "Iveskite egzamino pazymi: ";
+        cin >> Egzaminas;
+        if (cin.fail() || Egzaminas < 0 || Egzaminas > 10) {
+            cout << "Klaida. Netinkamas ivedimas, programa baigiasi" << endl;
+            exit(1);
+        } else {
+            Laikinas.setegzaminas(Egzaminas);
+        }
+    }
 }
-
 //Pazymiu generavimo funkcija
 void PazymiuGeneravimas(Studentas& Laikinas) {
     char PazymiuPasirinkimas;
     int PazymiuSkaicius;
     cout << "Ar zinote, kiek pazymiu reikia sugeneruot? (T - taip, N - ne) ";
-                    cin >> PazymiuPasirinkimas;
+    cin >> PazymiuPasirinkimas;
 
-                    if (PazymiuPasirinkimas != 'T' && PazymiuPasirinkimas != 'N') {
-                        cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
-                        exit(1);
-                    }
+    if (PazymiuPasirinkimas != 'T' && PazymiuPasirinkimas != 'N') {
+        cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
+        exit(1);
+    }
 
-                    if (PazymiuPasirinkimas == 'T') {
-                    cout << "Iveskite generuojamu pazymiu skaiciu: ";
-                    cin >> PazymiuSkaicius;
-                    if (cin.fail() || PazymiuSkaicius <= 0) {
-                        cout << "Klaida. Netinkamas ivedimas, programa baigiasi" << endl;
-                        exit(1);
-                    }
-                    }
-                    else if (PazymiuPasirinkimas == 'N') {
-                        PazymiuSkaicius = rand() % 11 + 1;
-                    }
+    if (PazymiuPasirinkimas == 'T') {
+        cout << "Iveskite generuojamu pazymiu skaiciu: ";
+        cin >> PazymiuSkaicius;
+        if (cin.fail() || PazymiuSkaicius <= 0) {
+            cout << "Klaida. Netinkamas ivedimas, programa baigiasi" << endl;
+            exit(1);
+        }
+    } else if (PazymiuPasirinkimas == 'N') {
+        PazymiuSkaicius = rand() % 11 + 1;
+    }
 
-                for (int j = 0; j < PazymiuSkaicius; j++) {
-                    int RandPazymis = rand() % 11;
-                    Laikinas.Pazymiai.push_back(RandPazymis);
-                }
-                cout << "Sugeneruoti studento pazymiai: ";
-                for (int pazymys : Laikinas.Pazymiai) {
-                    cout << pazymys << " ";
-                }
-                cout << '\n';
+    for (int j = 0; j < PazymiuSkaicius; j++) {
+        int RandPazymis = rand() % 11;
+        Laikinas.addPazymys(RandPazymis);
+    }
+
+    cout << "Sugeneruoti studento pazymiai: ";
+    for (int pazymys : Laikinas.getPazymiai()) {
+        cout << pazymys << " ";
+    }
+    cout << '\n';
 }
 //Pazymiu ivedimo funkcija
 void PazymiuIvedimas(Studentas& Laikinas) {
@@ -260,7 +269,7 @@ void PazymiuIvedimas(Studentas& Laikinas) {
     }
 
     if (cin.fail() || PazymiuSkaicius < -1) {
-        cout << "Klaida. Netinkamas ivedimas, programma baigiasi." << endl;
+        cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
         exit(1);
     }
 
@@ -281,18 +290,17 @@ void PazymiuIvedimas(Studentas& Laikinas) {
                 break;
             }
 
-            Laikinas.Pazymiai.push_back(k);
+            //Pridedam pazymius
+            Laikinas.addPazymys(k);
             Numeris++;
         }
 
-        try {
-            if (Numeris == 1) {
-                throw std::domain_error("Dalyba is nulio neapibrezta.\n");
-            }
-        } catch (std::exception& e) {
-            std::cerr << "Gavome isimti: " << e.what() << endl;
+        if (Numeris == 1) {
+            // Nebuvo pazymiu
+            cout << "Dalyba is nulio neapibrezta.\n";
             exit(1);
         }
+
     } else {
         for (int j = 0; j < PazymiuSkaicius; j++) {
             int k;
@@ -302,11 +310,11 @@ void PazymiuIvedimas(Studentas& Laikinas) {
                 cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
                 exit(1);
             }
-            Laikinas.Pazymiai.push_back(k);
+            // Pridedam pazymius
+            Laikinas.addPazymys(k);
         }
     }
 }
-
 //Studentu skaiciu ir ivedimo budo funkcija
 void StudentuInfo(Studentas& Laikinas, vector<Studentas>& Grupe) {
     int StudentuSkaicius;
@@ -321,9 +329,14 @@ void StudentuInfo(Studentas& Laikinas, vector<Studentas>& Grupe) {
         srand(time(0));
 
         for (int i = 0; i < StudentuSkaicius; i++) {
+            string tempVardas, tempPavarde;
             cout << "Iveskite studento varda ir pavarde: ";
-            cin >> Laikinas.Vardas >> Laikinas.Pavarde;
-            //Pasirinkimas kaip gausim duomenis apie pazymius(Ivedimo metodu arba generuojamu)
+            cin >> tempVardas >> tempPavarde;
+
+            // Nustatom studento varda ir pavarde
+            Laikinas.setvardas(tempVardas);
+            Laikinas.setpavarde(tempPavarde);
+
             cout << "Pasirinkite kaip ivesite pazymius (M - manualiai, A - automatiskai): ";
             cin >> Pasirinkimas;
 
@@ -337,14 +350,16 @@ void StudentuInfo(Studentas& Laikinas, vector<Studentas>& Grupe) {
             } else if (Pasirinkimas == 'M') {
                 PazymiuIvedimas(Laikinas);
             }
-            //Pasirinkimas kaip gausim egzamino pazymi(Ivedimo metodu arba generuojamu)
             EgzaminoPazymis(Laikinas);
-            //Vidurkio skaiciavimas
+            // Nustatom vidurki arba mediana
             Vidurkis(Laikinas);
-            //Medianos skaiciavimas
             Mediana(Laikinas);
+
+            // Pridedam studenta
             Grupe.push_back(Laikinas);
-            Laikinas.Pazymiai.clear();
+
+            // Clearinam studentu pazymius pries pereinant prie kito studento
+            Laikinas.setpazymiai({});
         }
 }
 
@@ -369,23 +384,23 @@ void SukurtiStudentoFaila(int studentCount, int gradeCount, const string& filena
     file << std::setw(10) << "Egz." << "\n";
 
     for (int i = 0; i < studentCount; i++) {
-        Laikinas.Vardas = "Vardas" + std::to_string(i+1);
-        Laikinas.Pavarde = "Pavarde" + std::to_string(i+1);
+        Laikinas.setvardas("Vardas" + std::to_string(i+1));
+        Laikinas.setpavarde("Pavarde" + std::to_string(i+1));
 
         for (int j = 0; j < gradeCount; j++)
-            Laikinas.Pazymiai.push_back(rand()%11);
+            Laikinas.addPazymys(rand()%11);
 
-        Laikinas.Egzaminas = rand()%11;
+        Laikinas.setegzaminas(rand()%11);
 
-        file << std::left << std::setw(22) << Laikinas.Vardas
-                          << std::setw(22) << Laikinas.Pavarde;
+        file << std::left << std::setw(22) << Laikinas.vardas()
+                          << std::setw(22) << Laikinas.pavarde();
 
-        for (int grade : Laikinas.Pazymiai)
+        for (int grade : Laikinas.getPazymiai())
             file << std::setw(10) << grade;
 
-        file << std::setw(10) << Laikinas.Egzaminas << "\n";
+        file << std::setw(10) << Laikinas.egzaminas() << "\n";
 
-        Laikinas.Pazymiai.clear();
+        Laikinas.setpazymiai({});
     }
 
     file.close();
@@ -395,7 +410,6 @@ void SukurtiStudentoFaila(int studentCount, int gradeCount, const string& filena
 }
 
 void KategorizuotiStudentus(vector<Studentas>& Grupe, vector<Studentas>& BelowFive, vector<Studentas>& AboveFive) {
-
     int strategija;
     char option;
     cout << "Pasirinkite rusiavimo metoda: (W - varda, P - pavarde, V - vidurki, N - nerusiuot): ";
@@ -408,32 +422,32 @@ void KategorizuotiStudentus(vector<Studentas>& Grupe, vector<Studentas>& BelowFi
     }
     auto start1 = std::chrono::high_resolution_clock::now();
     if (strategija == 1) {
-    for (auto& a : Grupe) {
-                if(a.Vidurkis < 5.0){
-                    BelowFive.push_back(a);
-                } else {
-                    AboveFive.push_back(a);
-                }
+        for (auto& a : Grupe) {
+            if(a.vidurkis() < 5.0){
+                BelowFive.push_back(a);
+            } else {
+                AboveFive.push_back(a);
             }
+        }
     }
     else if (strategija == 2) {
-    // Atbuline eiga
-    sort(Grupe.rbegin(), Grupe.rend(), [](const Studentas& a, const Studentas& b) {
-    return a.Vidurkis < b.Vidurkis;
-});
+        // Atbuline eiga
+        sort(Grupe.rbegin(), Grupe.rend(), [](const Studentas& a, const Studentas& b) {
+            return a.vidurkis() < b.vidurkis();
+        });
 
-// Naudojam pop istrinimui is Grupe konteinerio
-while (!Grupe.empty() && Grupe.back().Vidurkis < 5.0) {
-    BelowFive.push_back(Grupe.back());
-    Grupe.pop_back();
-}
-}
+        // Naudojam pop istrinimui is Grupe konteinerio
+        while (!Grupe.empty() && Grupe.back().vidurkis() < 5.0) {
+            BelowFive.push_back(Grupe.back());
+            Grupe.pop_back();
+        }
+    }
     else if (strategija == 3) {
         BelowFive.reserve(Grupe.size());
         AboveFive.reserve(Grupe.size());
 
         std::partition_copy(Grupe.begin(), Grupe.end(), std::back_inserter(BelowFive), std::back_inserter(AboveFive), [](const auto& a) {
-            return a.Vidurkis < 5.0;
+            return a.vidurkis() < 5.0;
         });
     }
     auto finish1 = std::chrono::high_resolution_clock::now();
@@ -520,9 +534,9 @@ void KategorijuFailai(const vector<Studentas>& Grupe, const vector<Studentas>& B
 
     // Duomenys rasomos studentams su vidurki < 5
     for(const auto& a : BelowFive){
-        BelowFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(17) << a.Vardas
-                              << std::setw(20) << a.Pavarde
-                              << std::setw(15) << a.Vidurkis
+        BelowFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(17) << a.vardas()
+                              << std::setw(20) << a.pavarde()
+                              << std::setw(15) << a.vidurkis()
                               << "\n";
     }
 
@@ -540,17 +554,17 @@ void KategorijuFailai(const vector<Studentas>& Grupe, const vector<Studentas>& B
     // Duomenys rasomos studentams su vidurki >= 5
     if (strategy == 1 || strategy == 3) {
     for(const auto& a : AboveFive){
-        AboveFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(17) << a.Vardas
-                            << std::setw(20) << a.Pavarde
-                            << std::setw(15) << a.Vidurkis
+        AboveFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(17) << a.vardas()
+                            << std::setw(20) << a.pavarde()
+                            << std::setw(15) << a.vidurkis()
                             << "\n";
     }
     }
     else if (strategy == 2) {
     for(const auto& a : Grupe){
-        AboveFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(17) << a.Vardas
-                            << std::setw(20) << a.Pavarde
-                            << std::setw(15) << a.Vidurkis
+        AboveFiveFile << std::fixed << std::setprecision(2) << std::left << std::setw(17) << a.vardas()
+                            << std::setw(20) << a.pavarde()
+                            << std::setw(15) << a.vidurkis()
                             << "\n";
     }
     }
