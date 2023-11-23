@@ -26,12 +26,44 @@ using std::ofstream;
 using std::left;
 using std::to_string;
 
-struct Studentas {
+class Studentas {
+private:
+    // Realizacija
     string Vardas, Pavarde;
     vector<int> Pazymiai;
     int Egzaminas;
     float Vidurkis;
     double Mediana;
+public:
+    // Interfeisas
+    Studentas() : Egzaminas(0), Vidurkis(0), Mediana(0) {}
+
+    // Get'eriai
+    inline string vardas() const { return Vardas; }
+    inline string pavarde() const { return Pavarde; }
+    inline float vidurkis() const { return Vidurkis; }
+    inline double mediana() const { return Mediana; }
+    vector<int> pazymiai() const { return Pazymiai; }
+    int egzaminas() const { return Egzaminas; }
+
+    // Set'eriai
+    void setvardas(const string& v) { Vardas = v; }
+    void setpavarde(const string& p) { Pavarde = p; }
+    void setpazymiai(const vector<int>& p) { Pazymiai = p; }
+    void setegzaminas(int e) { Egzaminas = e; }
+    void setvidurkis(float v) { Vidurkis = v; }
+    void setmediana(double m) { Mediana = m; }
+
+    void sortPazymiai() {
+        sort(Pazymiai.begin(), Pazymiai.end());
+    }
+    void addPazymys(int pazymys) {
+        Pazymiai.push_back(pazymys);
+    }
+
+    vector<int> getPazymiai() const {
+        return Pazymiai;
+    }
 };
 
 bool Rusiavimas(const Studentas& a, const Studentas& b);
