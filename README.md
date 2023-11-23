@@ -131,7 +131,7 @@ Struct ir Class vektoriaus atveju testavimo rezultatai naudojant greičiausia da
 |       Bendras Matavimas       | 1.34658872 s. | 11.3739598 s. |       Bendras Matavimas       |  2.1229318 s. | 18.777604 s. |
 
 
-
+Struct vektoriaus atveju testavimo su flagais rezultatai
 |         Vector(Struct)        |   100000 O1   |   100000 O2   |   100000 O3  |   1000000 O1  |   1000000 O2  |   1000000 O3  |
 |:-----------------------------:|:-------------:|:-------------:|:------------:|:-------------:|:-------------:|:-------------:|
 |       Failo Nuskaitymas       |  0.9324387 s. |  0.8532008 s. | 0.9659708 s. |   7.46416 s.  |  7.653638 s.  |  6.558868 s.  |
