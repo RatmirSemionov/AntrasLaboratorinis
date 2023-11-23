@@ -120,7 +120,7 @@ Studentu dalinimo i kategorijas testavimo vidurkiai pagal strategijas:
 
 
 V1.1:
-Struct ir Class vektoriaus atveju testavimo rezultatai naudojant greičiausia dalijimo strategija
+Struct ir Class vektoriaus atveju testavimo rezultatai naudojant greičiausia dalijimo strategija:
 |         Vector(Struct)        |     100000    |    1000000    |         Vector(Class)         |     100000    |    1000000   |
 |:-----------------------------:|:-------------:|:-------------:|:-----------------------------:|:-------------:|:------------:|
 |       Failo Nuskaitymas       | 1.07586886 s. |  7.5074866 s. |       Failo Nuskaitymas       |  1.734298 s.  |  15.05332 s. |
@@ -131,7 +131,7 @@ Struct ir Class vektoriaus atveju testavimo rezultatai naudojant greičiausia da
 |       Bendras Matavimas       | 1.34658872 s. | 11.3739598 s. |       Bendras Matavimas       |  2.1229318 s. | 18.777604 s. |
 
 
-Struct vektoriaus atveju testavimo su flagais rezultatai
+Struct vektoriaus atveju testavimo su flagais rezultatai:
 |         Vector(Struct)        |   100000 O1   |   100000 O2   |   100000 O3  |   1000000 O1  |   1000000 O2  |   1000000 O3  |
 |:-----------------------------:|:-------------:|:-------------:|:------------:|:-------------:|:-------------:|:-------------:|
 |       Failo Nuskaitymas       |  0.9324387 s. |  0.8532008 s. | 0.9659708 s. |   7.46416 s.  |  7.653638 s.  |  6.558868 s.  |
@@ -142,6 +142,7 @@ Struct vektoriaus atveju testavimo su flagais rezultatai
 |       Bendras Matavimas       |  1.3210934 s. | 1.19403952 s. |  1.340729 s. | 11.0491056 s. | 11.4945792 s. | 11.4777652 s. |
 
 
+Class vektoriaus atveju testavimo su flagais rezultatai:
 |         Vector(Class)         |   100000 O1   |   100000 O2   |   100000 O3   |   1000000 O1   |  1000000 O2  |   1000000 O3  |
 |:-----------------------------:|:-------------:|:-------------:|:-------------:|:--------------:|:------------:|:-------------:|
 |       Failo Nuskaitymas       |  2.009634 s.  |  1.798378 s.  |  1.7842442 s. |   14.67576 s.  |  14.40248 s. |   14.542 s.   |
