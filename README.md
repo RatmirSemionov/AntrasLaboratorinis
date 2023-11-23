@@ -116,3 +116,16 @@ Studentu dalinimo i kategorijas testavimo vidurkiai pagal strategijas:
 | 1 Strategija       | 0.00131578 s. |  0.017916 s.  |  0.214513 s. | 1.857508 s. | 23.35872 s. |
 | 2 Strategija       |  0.0023217 s. | 0.02404208 s. |  0.425756 s. |  4.59005 s. | 49.89908 s. |
 | 3 Strategija       | 0.00220356 s. | 0.01183548 s. | 0.1963102 s. | 1.821548 s. |  18.0035 s. |
+
+
+
+V1.1:
+Struct vektoriaus atveju testavimo rezultatai naudojant greičiausia dalijimo strategija
+|         Vector(Struct)        |     100000    |    1000000    |
+|:-----------------------------:|:-------------:|:-------------:|
+|       Failo Nuskaitymas       | 1.07586886 s. |  7.5074866 s. |
+|        Sort() veiksmas        |  0.4211282 s. |  4.860546 s.  |
+| Padalijimas į dvi kategorijas |  0.0383447 s. |  0.4194998 s. |
+|   Rašymas į vargščiukų failą  |  0.1644058 s. |  1.713978 s.  |
+|    Rašymas į galvočių failą   |  0.1898104 s. |  1.7326022 s. |
+|       Bendras Matavimas       | 1.34658872 s. | 11.3739598 s. |
