@@ -1,4 +1,4 @@
-# PirmasLaboratorinis
+# AntrasLaboratorinis
 
 V0.1 -
 Buvo sukurta studentu struktura, kuri turi studentu varda, pavarde,
@@ -138,14 +138,14 @@ Struct ir Class vektoriaus atveju testavimo rezultatai naudojant greičiausia da
 
 
 Struct vektoriaus atveju testavimo su flagais rezultatai:
-|         Vector(Struct)        |   100000 O1   |   100000 O2   |   100000 O3  |   1000000 O1  |   1000000 O2  |   1000000 O3  |
-|:-----------------------------:|:-------------:|:-------------:|:------------:|:-------------:|:-------------:|:-------------:|
-|       Failo Nuskaitymas       |  0.9324387 s. |  0.8532008 s. | 0.9659708 s. |   7.46416 s.  |  7.653638 s.  |  6.558868 s.  |
-|        Sort() veiksmas        |  0.4258102 s. |  0.3983566 s. | 0.3983186 s. |  4.785904 s.  |   4.64154 s.  |  4.932264 s.  |
-| Padalijimas į dvi kategorijas | 0.03725866 s. |  0.0371854 s. | 0.0411829 s. |  0.440817 s.  |  0.4619288 s. |  0.4405436 s. |
-|   Rašymas į vargščiukų failą  |  0.1666602 s. |  0.1530352 s. | 0.1683534 s. |  1.951654 s.  |  2.039308 s.  |  1.8442568 s. |
-|    Rašymas į galvočių failą   |  0.1843378 s. |  0.1498376 s. |  0.165423 s. |  1.793876 s.  |   1.94171 s.  |   1.8321 s.   |
-|       Bendras Matavimas       |  1.3210934 s. | 1.19403952 s. |  1.340729 s. | 11.0491056 s. | 11.4945792 s. | 11.4777652 s. |
+|         Vector(Struct)        |   100000 O1   |   100000 O2   |   100000 O3   |  1000000 O1  |   1000000 O2  |   1000000 O3  |
+|:-----------------------------:|:-------------:|:-------------:|:-------------:|:------------:|:-------------:|:-------------:|
+|       Failo Nuskaitymas       |  0.5864872 s. |  0.489574 s.  |  0.5502432 s. |  4.770758 s. |   4.86836 s.  |   4.76179 s.  |
+|        Sort() veiksmas        | 0.03821272 s. | 0.04754054 s. | 0.04019078 s. |  0.553845 s. |  0.5296582 s. |  0.5478884 s. |
+| Padalijimas į dvi kategorijas | 0.00309958 s. | 0.01654182 s. | 0.01009942 s. | 0.1715242 s. |  0.1648226 s. |  0.1734082 s. |
+|   Rašymas į vargščiukų failą  |  0.1477234 s. |  0.1235406 s. |  0.1655452 s. |  1.675816 s. |  1.673498 s.  |  1.625244 s.  |
+|    Rašymas į galvočių failą   |  0.1347786 s. |  0.122209 s.  |  0.1418554 s. |  1.483072 s. |  1.519442 s.  |  1.612124 s.  |
+|       Bendras Matavimas       |  0.8724888 s. |  0.7520647 s. |  0.8687435 s. | 8.1003724 s. | 8.42513456 s. | 8.17276554 s. |
 
 
 Class vektoriaus atveju testavimo su flagais rezultatai:
