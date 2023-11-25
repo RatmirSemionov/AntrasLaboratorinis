@@ -157,3 +157,9 @@ Class vektoriaus atveju testavimo su flagais rezultatai:
 |   Rašymas į vargščiukų failą  |  0.154668 s.  | 0.1381002 s. |  0.154413 s. |  1.6706524 s. |   2.00579 s.  |  1.858334 s.  |
 |    Rašymas į galvočių failą   |  0.1401796 s. | 0.1439824 s. | 0.1701494 s. |   1.7042 s.   |   1.90836 s.  |   1.73408 s.  |
 |       Bendras Matavimas       | 1.20022848 s. | 1.2608231 s. | 1.2946622 s. | 12.3972582 s. | 12.4063556 s. | 11.7184282 s. |
+
+Exe. failo dydžiai priklausomai nuo panaudoto flago:
+| Vector | Be flagu | O1      | O2      | O3      |
+|--------|----------|---------|---------|---------|
+| Struct | 731 KB   | 2.33 MB | 2.44 MB | 2.64 MB |
+| Class  | 751 KB   | 2.02 MB | 2.11 MB | 2.89 MB |
