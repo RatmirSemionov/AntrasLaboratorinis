@@ -37,7 +37,7 @@ private:
 public:
     // Interfeisas
     Studentas() : Egzaminas(0), Vidurkis(0), Mediana(0) {}
-
+    ~Studentas() {}
     // Get'eriai
     inline string vardas() const { return Vardas; }
     inline string pavarde() const { return Pavarde; }
