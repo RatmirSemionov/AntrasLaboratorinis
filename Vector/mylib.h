@@ -37,7 +37,31 @@ private:
 public:
     // Interfeisas
     Studentas() : Egzaminas(0), Vidurkis(0), Mediana(0) {}
-    ~Studentas() {}
+    ~Studentas() {Vardas.clear(); Pavarde.clear(); Pazymiai.clear();}
+
+    // Copy konstruktorius
+    Studentas(const Studentas& other) {
+        Vardas = other.Vardas;
+        Pavarde = other.Pavarde;
+        Pazymiai = other.Pazymiai;
+        Egzaminas = other.Egzaminas;
+        Vidurkis = other.Vidurkis;
+        Mediana = other.Mediana;
+    }
+
+    // Copy Assignment operatorius
+    Studentas& operator=(const Studentas& other) {
+        if (this != &other) {
+            Vardas = other.Vardas;
+            Pavarde = other.Pavarde;
+            Pazymiai = other.Pazymiai;
+            Egzaminas = other.Egzaminas;
+            Vidurkis = other.Vidurkis;
+            Mediana = other.Mediana;
+        }
+        return *this;
+    }
+
     // Get'eriai
     inline string vardas() const { return Vardas; }
     inline string pavarde() const { return Pavarde; }
