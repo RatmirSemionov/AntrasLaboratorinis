@@ -1,5 +1,126 @@
 #include "mylib.h"
 double ElapsedTime1 = 0, ElapsedTime2 = 0, ElapsedTime3 = 0, ElapsedTime4, SortTime = 0;
+
+std::istream& operator>>(std::istream& is, Studentas& student){
+    string Vardas,Pavarde;
+    cout <<"Iveskite studento varda ir pavarde: ";
+    is >> Vardas >> Pavarde;
+    student.setvardas(Vardas);
+    student.setpavarde(Pavarde);
+
+    char Pasirinkimas;
+    cout << "Pasirinkite kaip ivesite pazymius (M - manualiai, A - automatiskai): ";
+    cin >> Pasirinkimas;
+    if (Pasirinkimas != 'M' && Pasirinkimas != 'A') {
+        cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
+        exit(1);
+    }
+
+    if (Pasirinkimas == 'A') {
+    char PazymiuPasirinkimas;
+    int PazymiuSkaicius;
+    cout << "Ar zinote, kiek pazymiu reikia sugeneruot? (T - taip, N - ne) ";
+    cin >> PazymiuPasirinkimas;
+
+    if (PazymiuPasirinkimas != 'T' && PazymiuPasirinkimas != 'N') {
+        cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
+        exit(1);
+    }
+
+    if (PazymiuPasirinkimas == 'T') {
+        cout << "Iveskite generuojamu pazymiu skaiciu: ";
+        cin >> PazymiuSkaicius;
+        if (cin.fail() || PazymiuSkaicius <= 0) {
+            cout << "Klaida. Netinkamas ivedimas, programa baigiasi" << endl;
+            exit(1);
+        }
+    } else if (PazymiuPasirinkimas == 'N') {
+        PazymiuSkaicius = rand() % 11 + 1;
+    }
+
+    for (int j = 0; j < PazymiuSkaicius; j++) {
+        int RandPazymis = rand() % 11;
+        student.addPazymys(RandPazymis);
+    }
+
+    cout << "Sugeneruoti studento pazymiai: ";
+    for (int pazymys : student.getPazymiai()) {
+        cout << pazymys << " ";
+    }
+    cout << '\n';
+    }
+    else if (Pasirinkimas == 'M') {
+        cout << "Iveskite pazymiu skaiciu (arba 'q', jei norite ivesti pazymius be apribojimu): ";
+    string input;
+    int PazymiuSkaicius;
+    cin >> input;
+    try {
+        PazymiuSkaicius = std::stoi(input);
+        if (PazymiuSkaicius == 0) {
+            throw std::domain_error("Dalyba is nulio neapibrezta.\n");
+        }
+    } catch (std::invalid_argument&) {
+        PazymiuSkaicius = -1;
+    } catch (std::exception& e) {
+        std::cerr << "Gavome isimti: " << e.what() << endl;
+        exit(1);
+    }
+
+    if (cin.fail() || PazymiuSkaicius < -1) {
+        cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
+        exit(1);
+    }
+
+    if (PazymiuSkaicius == -1) {
+        cout << "Iveskite pazymius. Baigti ivedineti pazymius galite suvede 'q'." << endl;
+        int Numeris = 1;
+        while (true) {
+            cout << "Iveskite " << Numeris << " pazymi: ";
+            cin >> input;
+            int k;
+            try {
+                k = std::stoi(input);
+                if (k < 1 || k > 10) {
+                    cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
+                    exit(1);
+                }
+            } catch (std::invalid_argument&) {
+                break;
+            }
+
+            //Pridedam pazymius
+            student.addPazymys(k);
+            Numeris++;
+        }
+
+        if (Numeris == 1) {
+            // Nebuvo pazymiu
+            cout << "Dalyba is nulio neapibrezta.\n";
+            exit(1);
+        }
+
+    } else {
+        for (int j = 0; j < PazymiuSkaicius; j++) {
+            int k;
+            cout << "Iveskite " << j + 1 << " pazymi: ";
+            cin >> k;
+            if (cin.fail() || k < 1 || k > 10) {
+                cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
+                exit(1);
+            }
+            // Pridedam pazymius
+            student.addPazymys(k);
+        }
+    }
+    }
+    return is;
+}
+
+
+
+
+
+
 //Rusiavimo funkcija
 bool Rusiavimas(const Studentas& a, const Studentas& b) {
 
@@ -216,109 +337,9 @@ void EgzaminoPazymis(Studentas& Laikinas) {
         }
     }
 }
-//Pazymiu generavimo funkcija
-void PazymiuGeneravimas(Studentas& Laikinas) {
-    char PazymiuPasirinkimas;
-    int PazymiuSkaicius;
-    cout << "Ar zinote, kiek pazymiu reikia sugeneruot? (T - taip, N - ne) ";
-    cin >> PazymiuPasirinkimas;
-
-    if (PazymiuPasirinkimas != 'T' && PazymiuPasirinkimas != 'N') {
-        cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
-        exit(1);
-    }
-
-    if (PazymiuPasirinkimas == 'T') {
-        cout << "Iveskite generuojamu pazymiu skaiciu: ";
-        cin >> PazymiuSkaicius;
-        if (cin.fail() || PazymiuSkaicius <= 0) {
-            cout << "Klaida. Netinkamas ivedimas, programa baigiasi" << endl;
-            exit(1);
-        }
-    } else if (PazymiuPasirinkimas == 'N') {
-        PazymiuSkaicius = rand() % 11 + 1;
-    }
-
-    for (int j = 0; j < PazymiuSkaicius; j++) {
-        int RandPazymis = rand() % 11;
-        Laikinas.addPazymys(RandPazymis);
-    }
-
-    cout << "Sugeneruoti studento pazymiai: ";
-    for (int pazymys : Laikinas.getPazymiai()) {
-        cout << pazymys << " ";
-    }
-    cout << '\n';
-}
-//Pazymiu ivedimo funkcija
-void PazymiuIvedimas(Studentas& Laikinas) {
-    cout << "Iveskite pazymiu skaiciu (arba 'q', jei norite ivesti pazymius be apribojimu): ";
-    string input;
-    int PazymiuSkaicius;
-    cin >> input;
-    try {
-        PazymiuSkaicius = std::stoi(input);
-        if (PazymiuSkaicius == 0) {
-            throw std::domain_error("Dalyba is nulio neapibrezta.\n");
-        }
-    } catch (std::invalid_argument&) {
-        PazymiuSkaicius = -1;
-    } catch (std::exception& e) {
-        std::cerr << "Gavome isimti: " << e.what() << endl;
-        exit(1);
-    }
-
-    if (cin.fail() || PazymiuSkaicius < -1) {
-        cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
-        exit(1);
-    }
-
-    if (PazymiuSkaicius == -1) {
-        cout << "Iveskite pazymius. Baigti ivedineti pazymius galite suvede 'q'." << endl;
-        int Numeris = 1;
-        while (true) {
-            cout << "Iveskite " << Numeris << " pazymi: ";
-            cin >> input;
-            int k;
-            try {
-                k = std::stoi(input);
-                if (k < 1 || k > 10) {
-                    cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
-                    exit(1);
-                }
-            } catch (std::invalid_argument&) {
-                break;
-            }
-
-            //Pridedam pazymius
-            Laikinas.addPazymys(k);
-            Numeris++;
-        }
-
-        if (Numeris == 1) {
-            // Nebuvo pazymiu
-            cout << "Dalyba is nulio neapibrezta.\n";
-            exit(1);
-        }
-
-    } else {
-        for (int j = 0; j < PazymiuSkaicius; j++) {
-            int k;
-            cout << "Iveskite " << j + 1 << " pazymi: ";
-            cin >> k;
-            if (cin.fail() || k < 1 || k > 10) {
-                cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
-                exit(1);
-            }
-            // Pridedam pazymius
-            Laikinas.addPazymys(k);
-        }
-    }
-}
 //Studentu skaiciu ir ivedimo budo funkcija
 void StudentuInfo(Studentas& Laikinas, vector<Studentas>& Grupe) {
     int StudentuSkaicius;
-    char Pasirinkimas;
     cout << "Iveskite studentu skaiciu: ";
         cin >> StudentuSkaicius;
         if (cin.fail() || StudentuSkaicius <= 0) {
@@ -329,27 +350,7 @@ void StudentuInfo(Studentas& Laikinas, vector<Studentas>& Grupe) {
         srand(time(0));
 
         for (int i = 0; i < StudentuSkaicius; i++) {
-            string tempVardas, tempPavarde;
-            cout << "Iveskite studento varda ir pavarde: ";
-            cin >> tempVardas >> tempPavarde;
-
-            // Nustatom studento varda ir pavarde
-            Laikinas.setvardas(tempVardas);
-            Laikinas.setpavarde(tempPavarde);
-
-            cout << "Pasirinkite kaip ivesite pazymius (M - manualiai, A - automatiskai): ";
-            cin >> Pasirinkimas;
-
-            if (Pasirinkimas != 'M' && Pasirinkimas != 'A') {
-                cout << "Klaida. Netinkamas ivedimas, programa baigiasi." << endl;
-                exit(1);
-            }
-
-            if (Pasirinkimas == 'A') {
-                PazymiuGeneravimas(Laikinas);
-            } else if (Pasirinkimas == 'M') {
-                PazymiuIvedimas(Laikinas);
-            }
+            cin >> Laikinas;
             EgzaminoPazymis(Laikinas);
             // Nustatom vidurki arba mediana
             Vidurkis(Laikinas);
