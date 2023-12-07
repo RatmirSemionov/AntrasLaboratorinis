@@ -61,6 +61,8 @@ public:
         }
         return *this;
     }
+    //Ivedimo operatorius
+    friend std::istream& operator>>(std::istream& is, Studentas& student);
 
     // Get'eriai
     inline string vardas() const { return Vardas; }
