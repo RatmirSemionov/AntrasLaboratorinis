@@ -116,9 +116,12 @@ std::istream& operator>>(std::istream& is, Studentas& student){
     return is;
 }
 
-
-
-
+std::ostream& operator<<(std::ostream& os, Studentas& student) {
+    Vidurkis(student);
+    Mediana(student);
+    os << setw(18) << left << student.Vardas << setw(20) << left << student.Pavarde << setw(18) << student.Vidurkis << &student;
+    return os;
+}
 
 
 //Rusiavimo funkcija
