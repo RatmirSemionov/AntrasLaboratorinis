@@ -27,12 +27,14 @@ using std::left;
 using std::to_string;
 
 class Zmogus {
-    protected:
-        string Vardas, Pavarde;
-    public:
-        Zmogus(const string& vardas, const string& pavarde) :
-            Vardas(vardas), Pavarde(pavarde) {}
-    virtual ~Zmogus() = 0;
+protected:
+    string Vardas, Pavarde;
+
+public:
+    Zmogus(const string& vardas, const string& pavarde) :
+        Vardas(vardas), Pavarde(pavarde) {}
+
+    virtual ~Zmogus() {}
 
     //Geteriai
     virtual inline string vardas() const { return Vardas; }
@@ -44,23 +46,25 @@ class Zmogus {
     virtual void informacija() const = 0;
 };
 
-class Studentas {
+class Studentas : public Zmogus {
 private:
     // Realizacija
-    string Vardas, Pavarde;
     vector<int> Pazymiai;
     int Egzaminas;
     float Vidurkis;
     double Mediana;
+
 public:
     // Interfeisas
-    Studentas() : Egzaminas(0), Vidurkis(0), Mediana(0) {}
-    ~Studentas() {Vardas.clear(); Pavarde.clear(); Pazymiai.clear();}
+    Studentas() : Zmogus("", ""), Egzaminas(0), Vidurkis(0), Mediana(0) {}
+    Studentas(const string& vardas, const string& pavarde, const vector<int>& pazymiai,
+              int egzaminas, float vidurkis, double mediana) :
+        Zmogus(vardas, pavarde), Pazymiai(pazymiai), Egzaminas(egzaminas), Vidurkis(vidurkis), Mediana(mediana) {}
+     void informacija() const override {};
+    ~Studentas() { Pazymiai.clear(); }
 
     // Copy konstruktorius
-    Studentas(const Studentas& other) {
-        Vardas = other.Vardas;
-        Pavarde = other.Pavarde;
+    Studentas(const Studentas& other) : Zmogus(other.Vardas, other.Pavarde) {
         Pazymiai = other.Pazymiai;
         Egzaminas = other.Egzaminas;
         Vidurkis = other.Vidurkis;
@@ -70,8 +74,7 @@ public:
     // Copy Assignment operatorius
     Studentas& operator=(const Studentas& other) {
         if (this != &other) {
-            Vardas = other.Vardas;
-            Pavarde = other.Pavarde;
+            Zmogus::operator=(other);
             Pazymiai = other.Pazymiai;
             Egzaminas = other.Egzaminas;
             Vidurkis = other.Vidurkis;
