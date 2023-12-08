@@ -26,6 +26,24 @@ using std::ofstream;
 using std::left;
 using std::to_string;
 
+class Zmogus {
+    protected:
+        string Vardas, Pavarde;
+    public:
+        Zmogus(const string& vardas, const string& pavarde) :
+            Vardas(vardas), Pavarde(pavarde) {}
+    virtual ~Zmogus() = 0;
+
+    //Geteriai
+    virtual inline string vardas() const { return Vardas; }
+    virtual inline string pavarde() const { return Pavarde; }
+
+    //Setteriai
+    virtual void setvardas(const string& v) { Vardas = v; }
+    virtual void setpavarde(const string& p) { Pavarde = p; }
+    virtual void informacija() const = 0;
+};
+
 class Studentas {
 private:
     // Realizacija
