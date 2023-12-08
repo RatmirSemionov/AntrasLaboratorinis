@@ -1,9 +1,27 @@
 #include "mylib.h"
 
 int main() {
+    Studentas obj1;
+    obj1.setvardas("Michael");
+    obj1.setpavarde("Sanchez");
+    obj1.addPazymys(5);
+    obj1.addPazymys(7);
+    obj1.addPazymys(9);
+    obj1.addPazymys(10);
+    obj1.setegzaminas(8);
+
+    Studentas obj2 = obj1;
+    Studentas obj3;
+    obj3 = obj1;
+
+    cout << "-----------------------------------------------------------------------------------------------" << endl;
+    cout<<"Informacija apie obj1 tokia: "<<obj1<<endl;
+    cout<<"Informacija apie obj2 tokia: "<<obj2<<endl;
+    cout<<"Informacija apie obj3 tokia: "<<obj3<<endl;
+    cout << "-----------------------------------------------------------------------------------------------" << endl;
+
     Studentas Laikinas;
     vector<Studentas> Grupe;
-    char Pasirinktas;
     char Pasirinkimas2;
     string inputFileName;
     string outputFileName;
@@ -79,15 +97,9 @@ int main() {
     sort(Grupe.begin(), Grupe.end(), Rusiavimas);
 
     std::ostream &output = (Pasirinkimas2 == 'F') ? outputFile : cout;
-    //Pasirinkimas ka apskaiciuot
-    cout << "Apskaciuoti Vidurki (V) arba Mediana (M)? -> ";
-    cin >> Pasirinktas;
-    if (Pasirinktas != 'V' && Pasirinktas != 'M') {
-        cout << "Klaida. Netinkamas ivedimas, programa baigiasi" << endl;
-        return 1;
-    }
+
     output << "----------------------------------------------------------------------" << endl;
-    output << setw(17) << left << "Vardas " << setw(15) << left << " Pavarde " << setw(20) << (Pasirinktas == 'V' ? " Galutinis (Vid.) " : " Galutinis (Med.) ") << "Adresas atmintyje" << endl;
+    output << setw(17) << left << "Vardas " << setw(15) << left << " Pavarde " << setw(20) << " Galutinis (Vid.) " << "Adresas atmintyje" << endl;
     output << "----------------------------------------------------------------------" << endl;
     output << std::fixed << std::setprecision(2);
     for (auto &a : Grupe) {
