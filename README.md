@@ -61,6 +61,10 @@ jo veikiantis nauji prideti metodai, t.y. copy konstruktorius ir copy assignment
 Taip pat buvo padaryti ivesties ir išvesties metodai, kur ivesties metodas dirba su rankiniu
 duomenu ivedimu budais(rankiniu, automatiniu, failo) ir išvesties metodas dirba su išvedimo į ekraną ir į failą.
 
+V1.5 - Buvo pakeista klases struktura, t.y. pridėtas Zmogus klase kaip abstrakti klase, 
+o Studentas klase tampa jos išvestinę (derived) klasę. Zmogus klase turi Varda ir Pavarde,
+Studentas klase turi visa kita ka turėjo praeitoje versijoje. Buvo padaryta taip, kad
+nebūtų galima sukurti žmogaus tipo objektų, o tik objektus gautus iš jos išvestinių klasių.
 
 Naudojimosi instrukcija:
 
