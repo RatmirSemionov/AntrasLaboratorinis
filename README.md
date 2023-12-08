@@ -55,6 +55,12 @@ veiktu su class. Buvo atliktas palyginimas tarp strukturos ir klases, naudojant 
 1000000 failus, taip pat greičiausia dalinimo strategija. Be to, dar buvo atlikti
 testavimai naudojant flagus O1,O2,O3 tam, kad pamatyt kaip jie optimizuoja koda.
 
+V1.2 -
+Student klasei buvo realizuotas "Rule of three" ir pademonstruojamas main faile 
+jo veikiantis nauji prideti metodai, t.y. copy konstruktorius ir copy assignment operatorius.
+Taip pat buvo padaryti ivesties ir išvesties metodai, kur ivesties metodas dirba su rankiniu
+duomenu ivedimu budais(rankiniu, automatiniu, failo) ir išvesties metodas dirba su išvedimo į ekraną ir į failą.
+
 
 Naudojimosi instrukcija:
 
