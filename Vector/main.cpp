@@ -1,7 +1,7 @@
 #include "mylib.h"
 
 int main() {
-
+    //Studento klases objekto kurimas
     Studentas obj1;
     obj1.setvardas("Michael");
     obj1.setpavarde("Sanchez");
@@ -20,7 +20,7 @@ int main() {
     cout<<"Informacija apie obj2 tokia: "<<obj2<<endl;
     cout<<"Informacija apie obj3 tokia: "<<obj3<<endl;
     cout << "-----------------------------------------------------------------------------------------------" << endl;
-
+    //Patikrinimas, ar Zmogus klases objektas gali but sukurtas
     //Zmogus zmog("Nicholas", "Cage");
 
     Studentas Laikinas;
