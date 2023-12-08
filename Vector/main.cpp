@@ -1,6 +1,7 @@
 #include "mylib.h"
 
 int main() {
+
     Studentas obj1;
     obj1.setvardas("Michael");
     obj1.setpavarde("Sanchez");
@@ -20,8 +21,11 @@ int main() {
     cout<<"Informacija apie obj3 tokia: "<<obj3<<endl;
     cout << "-----------------------------------------------------------------------------------------------" << endl;
 
+    //Zmogus zmog("Nicholas", "Cage");
+
     Studentas Laikinas;
     vector<Studentas> Grupe;
+    char Pasirinktas;
     char Pasirinkimas2;
     string inputFileName;
     string outputFileName;
@@ -97,13 +101,19 @@ int main() {
     sort(Grupe.begin(), Grupe.end(), Rusiavimas);
 
     std::ostream &output = (Pasirinkimas2 == 'F') ? outputFile : cout;
-
+    //Pasirinkimas ka apskaiciuot
+    cout << "Apskaciuoti Vidurki (V) arba Mediana (M)? -> ";
+    cin >> Pasirinktas;
+    if (Pasirinktas != 'V' && Pasirinktas != 'M') {
+        cout << "Klaida. Netinkamas ivedimas, programa baigiasi" << endl;
+        return 1;
+    }
     output << "----------------------------------------------------------------------" << endl;
-    output << setw(17) << left << "Vardas " << setw(15) << left << " Pavarde " << setw(20) << " Galutinis (Vid.) " << "Adresas atmintyje" << endl;
+    output << setw(17) << left << "Vardas " << setw(15) << left << " Pavarde " << setw(20) << (Pasirinktas == 'V' ? " Galutinis (Vid.) " : " Galutinis (Med.) ") << "Adresas atmintyje" << endl;
     output << "----------------------------------------------------------------------" << endl;
     output << std::fixed << std::setprecision(2);
     for (auto &a : Grupe) {
-        output << a << endl;
+        output << setw(18) << left << a.vardas() << setw(20) << left << a.pavarde() << setw(18) << (Pasirinktas == 'V' ? a.vidurkis() : a.mediana()) << &a << endl;
     }
     }
 }
