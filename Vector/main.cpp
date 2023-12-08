@@ -91,7 +91,7 @@ int main() {
     output << "----------------------------------------------------------------------" << endl;
     output << std::fixed << std::setprecision(2);
     for (auto &a : Grupe) {
-        output << setw(18) << left << a.vardas() << setw(20) << left << a.pavarde() << setw(18) << (Pasirinktas == 'V' ? a.vidurkis() : a.mediana()) << &a << endl;
+        output << a << endl;
     }
     }
 }
