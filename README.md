@@ -173,3 +173,9 @@ Exe. failo dydžiai priklausomai nuo panaudoto flago:
 |--------|----------|---------|---------|---------|
 | Struct | 731 KB   | 2.33 MB | 2.44 MB | 2.64 MB |
 | Class  | 751 KB   | 2.02 MB | 2.11 MB | 2.89 MB |
+
+
+
+Unit testai, tikrinantis klases veikima, medianos ir vidurkio skaiciavima:
+![image](https://github.com/RatmirSemionov/AntrasLaboratorinis/assets/144428344/202557ca-3d97-4b8d-8a97-2dec8451179c)
+
