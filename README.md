@@ -184,4 +184,4 @@ Exe. failo dydžiai priklausomai nuo panaudoto flago:
 
 Unit testai, tikrinantis klases veikima, medianos ir vidurkio skaiciavima:
 ![image](https://github.com/RatmirSemionov/AntrasLaboratorinis/assets/144428344/202557ca-3d97-4b8d-8a97-2dec8451179c)
-
+Testavimams buvo panaudotas frameworkas Google Test.
