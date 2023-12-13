@@ -66,6 +66,12 @@ o Studentas klase tampa jos išvestinę (derived) klasę. Zmogus klase turi Vard
 Studentas klase turi visa kita ka turėjo praeitoje versijoje. Buvo padaryta taip, kad
 nebūtų galima sukurti žmogaus tipo objektų, o tik objektus gautus iš jos išvestinių klasių.
 
+V2.0 -
+Pirmiausiai buvo sukurta klases dokumentacija naudojant doxygen, po to buvo realizuoti
+unit testai(klasei, medianai, vidurkiui), kurie tikrino ar funkcijos veikia kaip turi
+ir gražina tikimas reikšmęs. Repozitorija buvo sutvarkyta, taip pat buvo sukurtas naujas
+CMake failas.
+
 Naudojimosi instrukcija:
 
 1. Norint sugeneruoti studentu faila, reikia pasirinkt T - taip, ivesti
