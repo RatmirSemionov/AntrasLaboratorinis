@@ -1,5 +1,0 @@
-cmake_minimum_required(VERSION 3.28)
-project(Projektas_su_vector)
-include_directories(include)
-file(GLOB SOURCES "src/*.cpp")
-add_executable(Projektas_su_vector ${SOURCES})
